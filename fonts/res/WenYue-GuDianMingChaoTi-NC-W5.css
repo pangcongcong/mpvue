@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "WenYue GuDianMingChaoTi (Non-Commercial Use) W5";
+    src: url("WenYue-GuDianMingChaoTi-NC-W5.eot"); /* IE9 */
+    src: url("WenYue-GuDianMingChaoTi-NC-W5.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("WenYue-GuDianMingChaoTi-NC-W5.woff") format("woff"), /* chrome, firefox */
+    url("WenYue-GuDianMingChaoTi-NC-W5.ttf") format("truetype"), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+    url("WenYue-GuDianMingChaoTi-NC-W5.svg#WenYue GuDianMingChaoTi (Non-Commercial Use) W5") format("svg"); /* iOS 4.1- */
+    font-style: normal;
+    font-weight: normal;
+}
+
+
