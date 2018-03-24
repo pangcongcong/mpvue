@@ -6,7 +6,8 @@
 			</div>
 		</div>
 		<div class="tips">
-			每集齐1朵樱花分1份现金，集的越多分的越多
+			|{{option.sakura_id}}|{{option.sakura_key}}|{{option.user_id}}
+			<!-- 每集齐1朵樱花分1份现金，集的越多分的越多 -->
 		</div>
 		<div class="tips-2">
 			已集齐<span class="num">{{totalSakuraNum}}朵</span>樱花&nbsp;<span>{{restText}}</span>
@@ -443,11 +444,10 @@ export default {
 	onLoad() {
 		this.getRestDay();
 		this.option = this.$root.$mp.query;
-		console.log(this.option);
 
 		if (!WMP.globalData.userInfo || !WMP.globalData.userInfo.user_id) {
 			this.showGetSakuraAlert();
-			if (this.option.sakura_id) {
+			if (this.option.sakura_key) {
 				this.maskShow = true;
 				this.inviteShareSakura = true;
 			}
@@ -460,7 +460,7 @@ export default {
 				});
 			} else {
 				this.getUserActInfo();
-				if (this.option.sakura_id) {
+				if (this.option.sakura_key) {
 					this.maskShow = true;
 					this.inviteShareSakura = true;
 				}
@@ -469,24 +469,9 @@ export default {
 	},
 	onShareAppMessage (res) {
 		let self = this;
-		console.log(res);
-		self.closeAlert(this.sakuraDetailShow);
+		this.closeAlert(this.sakuraDetailShow);
 		if (res.from == 'button' && res.target.dataset.type == '0') {
 			//任务三 赠送好友一瓣
-			Net.get('Sakura.userGiftSakura', {
-				data: {
-					user_id: this.user_id,
-					sakura_key: this.sakuraDetailKey
-				}
-			}).then(res=>{
-				if(res.errno=='0') {
-					this.sakura_id = res.data.sakura_id;
-					console.log('/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey +'&user_id=' + this.user_id+"&sakura_id=" + this.sakura_id);
-					
-				} else {
-					wx.showModal({title:'提示', content: res.errmsg});
-				}
-			});
 			return {
 				title: '送你一朵'+this.sakuraDetailName+'，快来和我平分100万现金！',
 				path: '/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey +'&user_id=' + this.user_id +"&sakura_id=" + this.sakura_id,
@@ -506,11 +491,9 @@ export default {
 						duration: 2000
 					});
 				}
-			}
-			
+			};
 		} else {
 			let shareImg = this.shareImg;
-			console.log('/pages/sakura/sakura');
 
 			if (res.from == 'menu') {
 				return {
@@ -566,7 +549,7 @@ export default {
 								duration: 2000
 							});
 						}
-					}
+					};
 				} else if (res.target.dataset.type && res.target.dataset.type == '2') {
 					return {
 						title: '100万现金等你来分！距离分钱仅剩'+this.restDay+'天！',
@@ -587,13 +570,29 @@ export default {
 								duration: 2000
 							});
 						}
-					}
+					};
 				}
 			}
 			
 		}
 	},
 	methods: {
+		getShareSakuraId() {
+			Net.get('Sakura.userGiftSakura', {
+				data: {
+					user_id: this.user_id,
+					sakura_key: this.sakuraDetailKey
+				}
+			}).then(res=>{
+				if(res.errno=='0') {
+					this.sakura_id = res.data.sakura_id;
+					console.log('/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey +'&user_id=' + this.user_id+"&sakura_id=" + this.sakura_id);
+					
+				} else {
+					wx.showModal({title:'提示', content: res.errmsg});
+				}
+			});
+		},
 		showGetSakuraAlert() {
 			Net.get('Sakura.getUserActivityInfoByUserId', {
 				data: {
@@ -603,7 +602,6 @@ export default {
 				}
 			}).then(res=>{
 				if(res.errno=='0') {
-					console.log(this.option);
 					this.taskList = res.data.day_task;
 					let infoList = res.data.info;
 					this.sakura_A_num = infoList.sakura_a;
@@ -632,7 +630,6 @@ export default {
 			});
 		},
 		checkAuth() {
-			console.log(this.option);
 			if (WMP.globalData.userInfo && WMP.globalData.userInfo.user_id) {
 				Net.get('Sakura.userRecvGiftSakura', {
 					data: {
@@ -775,6 +772,7 @@ export default {
 
 			this.maskShow = true;
 			this.sakuraDetailShow = true;
+			this.getShareSakuraId();
 		},
 		showComposeAni() {
 			if (this.is_compose) {

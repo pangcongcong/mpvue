@@ -8,7 +8,7 @@
       </view>
     </view>
     <view class="_div data-v-2da408fc tips">
-      每集齐1朵樱花分1份现金，集的越多分的越多
+      |{{option.sakura_id}}|{{option.sakura_key}}|{{option.user_id}}
     </view>
     <view class="_div data-v-2da408fc tips-2">
       已集齐

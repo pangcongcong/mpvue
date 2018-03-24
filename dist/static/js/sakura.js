@@ -391,6 +391,7 @@ app.$mount();
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -465,11 +466,10 @@ app.$mount();
 	onLoad: function onLoad() {
 		this.getRestDay();
 		this.option = this.$root.$mp.query;
-		console.log(this.option);
 
 		if (!WMP.globalData.userInfo || !WMP.globalData.userInfo.user_id) {
 			this.showGetSakuraAlert();
-			if (this.option.sakura_id) {
+			if (this.option.sakura_key) {
 				this.maskShow = true;
 				this.inviteShareSakura = true;
 			}
@@ -482,7 +482,7 @@ app.$mount();
 				});
 			} else {
 				this.getUserActInfo();
-				if (this.option.sakura_id) {
+				if (this.option.sakura_key) {
 					this.maskShow = true;
 					this.inviteShareSakura = true;
 				}
@@ -490,26 +490,10 @@ app.$mount();
 		}
 	},
 	onShareAppMessage: function onShareAppMessage(res) {
-		var _this = this;
-
 		var self = this;
-		console.log(res);
-		self.closeAlert(this.sakuraDetailShow);
+		this.closeAlert(this.sakuraDetailShow);
 		if (res.from == 'button' && res.target.dataset.type == '0') {
 			//任务三 赠送好友一瓣
-			Net.get('Sakura.userGiftSakura', {
-				data: {
-					user_id: this.user_id,
-					sakura_key: this.sakuraDetailKey
-				}
-			}).then(function (res) {
-				if (res.errno == '0') {
-					_this.sakura_id = res.data.sakura_id;
-					console.log('/pages/sakura/sakura?sakura_key=' + _this.sakuraDetailKey + '&user_id=' + _this.user_id + "&sakura_id=" + _this.sakura_id);
-				} else {
-					wx.showModal({ title: '提示', content: res.errmsg });
-				}
-			});
 			return {
 				title: '送你一朵' + this.sakuraDetailName + '，快来和我平分100万现金！',
 				path: '/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey + '&user_id=' + this.user_id + "&sakura_id=" + this.sakura_id,
@@ -532,7 +516,6 @@ app.$mount();
 			};
 		} else {
 			var shareImg = this.shareImg;
-			console.log('/pages/sakura/sakura');
 
 			if (res.from == 'menu') {
 				return {
@@ -616,6 +599,23 @@ app.$mount();
 	},
 
 	methods: {
+		getShareSakuraId: function getShareSakuraId() {
+			var _this = this;
+
+			Net.get('Sakura.userGiftSakura', {
+				data: {
+					user_id: this.user_id,
+					sakura_key: this.sakuraDetailKey
+				}
+			}).then(function (res) {
+				if (res.errno == '0') {
+					_this.sakura_id = res.data.sakura_id;
+					console.log('/pages/sakura/sakura?sakura_key=' + _this.sakuraDetailKey + '&user_id=' + _this.user_id + "&sakura_id=" + _this.sakura_id);
+				} else {
+					wx.showModal({ title: '提示', content: res.errmsg });
+				}
+			});
+		},
 		showGetSakuraAlert: function showGetSakuraAlert() {
 			var _this2 = this;
 
@@ -627,7 +627,6 @@ app.$mount();
 				}
 			}).then(function (res) {
 				if (res.errno == '0') {
-					console.log(_this2.option);
 					_this2.taskList = res.data.day_task;
 					var infoList = res.data.info;
 					_this2.sakura_A_num = infoList.sakura_a;
@@ -658,7 +657,6 @@ app.$mount();
 		checkAuth: function checkAuth() {
 			var _this3 = this;
 
-			console.log(this.option);
 			if (WMP.globalData.userInfo && WMP.globalData.userInfo.user_id) {
 				Net.get('Sakura.userRecvGiftSakura', {
 					data: {
@@ -803,6 +801,7 @@ app.$mount();
 
 			this.maskShow = true;
 			this.sakuraDetailShow = true;
+			this.getShareSakuraId();
 		},
 		showComposeAni: function showComposeAni() {
 			if (this.is_compose) {
@@ -1100,7 +1099,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', [_vm._v("\n\t\t\t万能樱"), _c('span', [_vm._v(_vm._s(_vm.sakura_W_num))])])]), _vm._v(" "), _c('div', {
     staticClass: "tips"
-  }, [_vm._v("\n\t\t每集齐1朵樱花分1份现金，集的越多分的越多\n\t")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t|" + _vm._s(_vm.option.sakura_id) + "|" + _vm._s(_vm.option.sakura_key) + "|" + _vm._s(_vm.option.user_id) + "\n\t\t")]), _vm._v(" "), _c('div', {
     staticClass: "tips-2"
   }, [_vm._v("\n\t\t已集齐"), _c('span', {
     staticClass: "num"
