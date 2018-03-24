@@ -1,0 +1,220 @@
+
+@font-face {
+  font-family: "SakuraFont";
+  src: url("https://s5.wandougongzhu.cn/s/72/fonts_80bdfb.eot");
+  src: url("https://s5.wandougongzhu.cn/s/72/fonts_80bdfb.eot?#iefix") format("embedded-opentype"), 
+	url("https://s5.wandougongzhu.cn/s/2e/fonts_ec2f0d.ttf") format("truetype"), 
+    url("https://s5.wandougongzhu.cn/s/34/fonts_953a8a.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SakuraKai";
+  src: url("https://s3.wandougongzhu.cn/s/8d/kai_1c1e29.eot");
+  src: url("https://s3.wandougongzhu.cn/s/8d/kai_1c1e29.eot?#iefix") format("embedded-opentype"), 
+	url("https://s4.wandougongzhu.cn/s/a7/kai_5c7eb2.ttf") format("truetype"), 
+    url("https://s3.wandougongzhu.cn/s/a2/kai_f0b6d1.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+page.data-v-1d876289 {
+  font-family: "SakuraKai";
+  color: #191919;
+}
+.btn-box.data-v-1d876289 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.colse.data-v-1d876289 {
+  position: absolute;
+  top: -90rpx;
+  right: 0;
+  width: 60rpx;
+  height: 100rpx;
+  background: url('https://s2.wandougongzhu.cn/s/5f/_977ab3.png') no-repeat;
+  z-index: 2;
+  background-size: contain;
+  cursor: pointer;
+}
+.mysakura-btn.data-v-1d876289,
+.suc-btn.data-v-1d876289 {
+  bottom: 20rpx;
+  width: 200rpx;
+  height: 70rpx;
+  line-height: 76rpx;
+  font-size: 28rpx;
+  color: #fff;
+  background: url('https://s2.wandougongzhu.cn/s/68/toyou_3d05c2.png') no-repeat;
+  background-size: 100% 100%;
+  margin: 0 auto;
+}
+.dis-btn.data-v-1d876289 {
+  background: url('https://s3.wandougongzhu.cn/s/01/_2fd8c9.png') no-repeat;
+  background-size: 100% 100%;
+}
+.to-alert-box.data-v-1d876289 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+  width: 560rpx;
+  height: 344rpx;
+  font-size: 28rpx;
+  text-align: center;
+  background: url('https://s3.wandougongzhu.cn/s/3d/alertmin_05569c.png') no-repeat;
+  background-size: 100% 100%;
+}
+.to-cash-tip.data-v-1d876289 {
+  width: 400rpx;
+  height: 120rpx;
+  margin: 0 auto;
+}
+#mask.data-v-1d876289,
+#suc.data-v-1d876289 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.7);
+}
+#suc.data-v-1d876289 {
+  text-align: center;
+  background: url('https://s3.wandougongzhu.cn/s/1f/sucbg_ee24f9.jpg') no-repeat;
+  background-size: cover;
+}
+#suc .suc-title.data-v-1d876289 {
+  font-size: 44rpx;
+  margin-top: 160rpx;
+  color: rgb(237, 61, 98);
+  -webkit-text-stroke: 1rpx #ffffff;
+  text-align: center;
+  font-weight: bold;
+  font-family: "sakuraKai";
+}
+#suc .suc-tips.data-v-1d876289 {
+  font-size: 28rpx;
+  color: #191919;
+}
+#suc .suc-res.data-v-1d876289 {
+  font-size: 64rpx;
+  color: rgb(234, 60, 98);
+  font-weight: bold;
+  margin: 80rpx auto 10rpx auto;
+}
+.suc-banner.data-v-1d876289 {
+  width: 690rpx;
+  height: 400rpx;
+  background: url('https://s5.wandougongzhu.cn/s/98/banner_c52dba.jpg') no-repeat;
+  background-size: 100% 100%;
+  margin: 0 auto;
+}
+.suc-res ._span.data-v-1d876289 {
+  font-size: 24rpx;
+}
+.suc-btn.data-v-1d876289 {
+  display: block;
+  margin-top: 60rpx;
+}
+.container.data-v-1d876289 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "SakuraKai";
+  text-align: center;
+  background: url('https://s1.wandougongzhu.cn/s/b8/bg2_df61bf.jpg') no-repeat;
+  background-size: 100% 100%;
+  background-color: #f3f2f1;
+}
+.mysakura-tips.data-v-1d876289 {
+  width: 460rpx;
+  height: 120rpx;
+  margin: 80rpx auto 20rpx auto;
+}
+.mysakura.data-v-1d876289 {
+  width: 30rpx;
+  height: 30rpx;
+  margin: 6rpx auto;
+  background: url('https://s3.wandougongzhu.cn/s/7e/4_88421d.png') no-repeat;
+  background-size: cover;
+}
+.cash-box.data-v-1d876289,
+.score-box.data-v-1d876289 {
+  position: absolute;
+  top: 360rpx;
+  width: 550rpx;
+  height: 160rpx;
+  background: url('https://s5.wandougongzhu.cn/s/52/xianjinbtn_254e29.png') no-repeat;
+  background-size: 100% 100%;
+  margin: 20rpx auto;
+  color: #ffffff;
+  font-family: "sakuraKai";
+}
+.cash-box .icon.data-v-1d876289,
+.score-box .icon.data-v-1d876289 {
+  width: 70rpx;
+  height: 40rpx;
+  position: absolute;
+  left: -10rpx;
+}
+.cash-content.data-v-1d876289,
+.score-content.data-v-1d876289 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.score-box.data-v-1d876289 {
+  top: 600rpx;
+  background: url('https://s4.wandougongzhu.cn/s/60/jifenbtn_3e240f.png') no-repeat;
+  background-size: cover;
+}
+.tips2.data-v-1d876289 {
+  font-size: 24rpx;
+  color: #fff;
+  width: 340rpx;
+  height: 100rpx;
+}
+.tips2 ._span.data-v-1d876289 {
+  font-size: 56rpx;
+}
+.mini-tip.data-v-1d876289 {
+  font-size: 24rpx;
+}
+.tips.data-v-1d876289 {
+  font-size: 32rpx;
+  color: rgb(87, 94, 137);
+  text-align: center;
+}
+.to-cash-btn.data-v-1d876289,
+.to-score-btn.data-v-1d876289 {
+  width: 160rpx;
+  height: 60rpx;
+  font-size: 24rpx;
+  line-height: 60rpx;
+  color: rgb(63, 4, 4);
+  margin: 50rpx auto;
+  background: url('https://s5.wandougongzhu.cn/s/f8/ing_fe1225.png') no-repeat;
+  background-size: 100% 100%;
+}
+#mask.data-v-1d876289 {
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}

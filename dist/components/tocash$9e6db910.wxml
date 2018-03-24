@@ -1,0 +1,80 @@
+<template name="tocash$9e6db910">
+  <view class="_div data-v-1d876289 container">
+    <view class="_div data-v-1d876289 tips">
+      <view class="_div data-v-1d876289">我的樱花</view>
+      <view class="_div data-v-1d876289 mysakura"></view>
+    </view>
+    <view class="_div data-v-1d876289 cash-box">
+      <image class="_img data-v-1d876289 icon" src="https://s5.wandougongzhu.cn/s/ca/xianjin_82b0bb.png"
+        alt></image>
+      <view class="_div data-v-1d876289 cash-content">
+        <view class="_div data-v-1d876289 tips2">
+          <label class="_span data-v-1d876289">{{toCashNum || 12}}</label>元
+          <view class="_div data-v-1d876289 mini-tip">24小时内存入微信零钱</view>
+        </view>
+        <view class="_div data-v-1d876289 to-cash-btn" bindtap="handleProxy" data-eventid="{{'0'}}"
+          data-comkey="{{$k}}">
+          兑换现金
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-1d876289 score-box">
+      <image class="_img data-v-1d876289 icon" src="https://s3.wandougongzhu.cn/s/ad/jifen_964890.png"
+        alt></image>
+      <view class="_div data-v-1d876289 score-content">
+        <view class="_div data-v-1d876289 tips2">
+          价值
+          <label class="_span data-v-1d876289">{{scoreToCash}}</label>元 ({{toScoreNum}})积分
+          <view class="_div data-v-1d876289 mini-tip">下单可直接抵现{{scoreToCash}}元</view>
+        </view>
+        <view class="_div data-v-1d876289 to-score-btn">
+          兑换积分
+        </view>
+      </view>
+    </view>
+    <view id="mask" wx:if="{{maskShow}}" class="_div data-v-1d876289">
+      <view class="_div data-v-1d876289 to-alert-box">
+        <view class="_div data-v-1d876289 colse" bindtap="handleProxy" data-eventid="{{'4'}}"
+          data-comkey="{{$k}}"></view>
+        <view class="_div data-v-1d876289 mysakura-tips">
+          <view class="_p data-v-1d876289">即将为您兑换豌豆公主
+            <label class="_span data-v-1d876289"></label>积分，</view>
+          <view class="_p data-v-1d876289">可抵现
+            <label class="_span data-v-1d876289"></label>元，下单时可抵现。</view>
+        </view>
+        <view class="_div data-v-1d876289 btn-box">
+          <view class="_div data-v-1d876289 mysakura-btn dis-btn" bindtap="handleProxy"
+            data-eventid="{{'5'}}" data-comkey="{{$k}}">
+            取消
+          </view>
+          <view class="_div data-v-1d876289 mysakura-btn" bindtap="handleProxy"
+            data-eventid="{{'6'}}" data-comkey="{{$k}}">
+            去兑换
+          </view>
+        </view>
+      </view>
+    </view>
+    <view id="suc" wx:if="{{sucResShow}}" class="_div data-v-1d876289">
+      <view class="_div data-v-1d876289 suc-title">恭喜您，
+        <label wx:if="{{type == '0'}}" class="_span data-v-1d876289">积分</label>
+        <label wx:if="{{type == '1'}}" class="_span data-v-1d876289">现金</label>兑换成功！</view>
+      <view class="_div data-v-1d876289 suc-tips" wx:if="{{type == '0'}}">积分已经放入豌豆公主账号
+        <label class="_span data-v-1d876289">{{phone}}</label>
+      </view>
+      <view class="_div data-v-1d876289 suc-tips" wx:if="{{type == '1'}}">现金24小时内会存入您的微信钱包</view>
+      <view class="_div data-v-1d876289 suc-res" wx:if="{{type == '0'}}">{{toScoreNum}}
+        <label class="_span data-v-1d876289">积分</label>
+      </view>
+      <view class="_div data-v-1d876289 suc-res" wx:if="{{type == '1'}}">{{toCashNum}}
+        <label class="_span data-v-1d876289">现金</label>
+      </view>
+      <view wx:if="{{type == '1' && toCashNum < 1}}" class="_div data-v-1d876289">
+        <view class="_div data-v-1d876289 suc-tips">{{toCashTip}}</view>
+        <image class="_img data-v-1d876289 to-cash-tip" src="https://s4.wandougongzhu.cn/s/f3/613_360bb0.png"
+          alt></image>
+      </view>
+      <view class="_div data-v-1d876289 suc-banner"></view>
+      <navigator url="/page/index/index" class="_a data-v-1d876289 suc-btn">去逛逛</navigator>
+    </view>
+  </view>
+</template>

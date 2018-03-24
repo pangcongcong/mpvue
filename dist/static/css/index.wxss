@@ -1,0 +1,991 @@
+
+@font-face {
+  font-family: "SakuraFont";
+  src: url("https://s5.wandougongzhu.cn/s/72/fonts_80bdfb.eot");
+  src: url("https://s5.wandougongzhu.cn/s/72/fonts_80bdfb.eot?#iefix") format("embedded-opentype"), 
+	url("https://s5.wandougongzhu.cn/s/2e/fonts_ec2f0d.ttf") format("truetype"), 
+    url("https://s5.wandougongzhu.cn/s/34/fonts_953a8a.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SakuraKai";
+  src: url("https://s5.wandougongzhu.cn/s/7e/kai_70b1e2.eot");
+  src: url("https://s5.wandougongzhu.cn/s/7e/kai_70b1e2.eot?#iefix") format("embedded-opentype"), 
+	url("https://s5.wandougongzhu.cn/s/0b/kai_eb93b6.ttf") format("truetype"), 
+    url("https://s5.wandougongzhu.cn/s/e4/kai_b69e8d.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+page.data-v-6b277275 {
+  font-family: "SakuraKai";
+}
+.invite-text.data-v-6b277275 {
+  font-family: "sakuraKai";
+  font-size: 24rpx;
+  color: rgb(67, 67, 67);
+  margin: 60rpx auto;
+}
+.invite-text .invite-title.data-v-6b277275 {
+  font-size: 30rpx;
+}
+.rule-p-title.data-v-6b277275 {
+  font-size: 24rpx;
+  font-weight: bold;
+}
+.rule-show-more.data-v-6b277275 {
+  width: 120rpx;
+  height: 40rpx;
+  margin: 0 auto;
+  text-align: center;
+  padding-right: 20rpx;
+  background: url('https://s3.wandougongzhu.cn/s/94/arrow_44a7ec.png') no-repeat;
+  background-position: right center;
+  background-size: 20rpx;
+}
+.shouqi.data-v-6b277275 {
+  background: url('https://s3.wandougongzhu.cn/s/f8/arraw_2b1964.png') no-repeat;
+  background-position: right center;
+  background-size: 20rpx;
+}
+.faq-title.data-v-6b277275 {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+.faq-q.data-v-6b277275 {
+  color: rgb(243, 81, 109);
+}
+.my-sakura-box.data-v-6b277275 {
+  font-size: 28rpx;
+  color: rgb(88, 94, 141);
+  font-weight: bold;
+  font-family: "sakuraKai";
+  text-align: left;
+  margin: 40rpx 0 0 80rpx;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.my-sakura.data-v-6b277275 {
+  width: 30rpx;
+  height: 30rpx;
+  margin: 6rpx;
+  background: url('https://s3.wandougongzhu.cn/s/7e/4_88421d.png') no-repeat;
+  background-size: cover;
+}
+.w-sakura.data-v-6b277275 {
+  position: absolute;
+  font-family: "sakuraKai";
+  right: 30rpx;
+  top: 0;
+  width: 60rpx;
+  height: 160rpx;
+  background: url('https://s5.wandougongzhu.cn/s/f9/_5b6c81.png') no-repeat;
+  background-size: 100% 100%;
+}
+.w-sakura ._div.data-v-6b277275 {
+  width: 40rpx;
+  height: 120rpx;
+  margin: 40rpx 10rpx 0 10rpx;
+  font-size: 30rpx;
+  line-height: 30rpx;
+  color: rgb(76, 38, 24);
+}
+.w-sakura ._div ._span.data-v-6b277275 {
+  color: rgb(255, 29, 95);
+}
+.colse.data-v-6b277275 {
+  position: absolute;
+  top: -90rpx;
+  right: 0;
+  width: 60rpx;
+  height: 100rpx;
+  background: url('https://s2.wandougongzhu.cn/s/5f/_977ab3.png') no-repeat;
+  z-index: 2;
+  background-size: contain;
+  cursor: pointer;
+}
+.num-box.data-v-6b277275,
+.task-item-img .num.data-v-6b277275 {
+  width: 40rpx;
+  height: 40rpx;
+  text-align: center;
+  line-height: 40rpx;
+  color: #fff;
+  background: url('https://s1.wandougongzhu.cn/s/00/5_b08501.png') no-repeat;
+  background-size: cover;
+  font-size: 28rpx;
+  position: absolute;
+  right: 0;
+}
+.to-alert-box.data-v-6b277275,
+.get-alert-box.data-v-6b277275,
+.compose-box.data-v-6b277275 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+  width: 560rpx;
+  height: 690rpx;
+  font-size: 28rpx;
+  text-align: center;
+  background: url('https://s3.wandougongzhu.cn/s/65/alertbg_701e5c.png') no-repeat;
+  background-size: cover;
+}
+.get-alert-box.data-v-6b277275 {
+  background: url('https://s2.wandougongzhu.cn/s/f9/alertbg2_587294.png') no-repeat;
+  background-size: cover;
+}
+.compose-box.data-v-6b277275 {
+  position: absolute;
+  width: 750rpx;
+  height: 800rpx;
+  background: none;
+}
+.compose-tips.data-v-6b277275 {
+  font-size: 56rpx;
+  font-family: "sakuraKai";
+  color: #fff;
+  margin: 0 auto;
+  top: 0;
+}
+.compose-btn.data-v-6b277275 {
+  z-index: 10;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  font-family: "sakuraKai";
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  width: 230rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  font-size: 28rpx;
+  color: #fff;
+  margin: 0 auto;
+  background: url('https://s2.wandougongzhu.cn/s/68/toyou_3d05c2.png') no-repeat;
+  background-size: cover;
+}
+.universal.data-v-6b277275 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+  width: 750rpx;
+  height: 800rpx;
+  z-index: 1;
+  background: url('https://s5.wandougongzhu.cn/s/c8/_8612fe.png') no-repeat;
+  background-size: 750rpx 800rpx;
+  background-position: center;
+}
+.universal .dot-box.data-v-6b277275 {
+  width: 160rpx;
+  height: 100rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%) scale(1.5);
+          transform: translate(-50%,-50%) scale(1.5);
+}
+.universal-compose.data-v-6b277275 {
+  font-size: 46rpx;
+}
+.sakura-text.data-v-6b277275 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.congratulation.data-v-6b277275,
+.universal-tips.data-v-6b277275 {
+  font-size: 24rpx;
+  line-height: 40rpx;
+}
+.gift-res-title.data-v-6b277275 {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-top: 50rpx;
+}
+.gift-res-content.data-v-6b277275 {
+  font-size: 24rpx;
+  text-align: left;
+  margin: 0 40rpx;
+}
+.gift-res-item.data-v-6b277275 {
+  height: 100rpx;
+  border-bottom: 2rpx solid rgba(233, 233, 233,.5);
+}
+.gift-res-item .rec.data-v-6b277275 {
+  line-height: 60rpx;
+  font-size: 28rpx;
+}
+.gift-res-item .rec ._span.data-v-6b277275 {
+  color: rgb(234, 60, 98);
+}
+.gift-res-item .time.data-v-6b277275 {
+  line-height: 40rpx;
+  color: rgb(153, 153, 153);
+}
+.gift-res-item-null.data-v-6b277275 {
+  font-size: 24rpx;
+  margin: 100rpx auto;
+}
+.mysakura-text.data-v-6b277275 {
+  margin-top: 56rpx;
+}
+.mysakura-text .name.data-v-6b277275 {
+  font-family: "SakuraFont";
+  font-size: 50rpx;
+  line-height: 50rpx;
+}
+.sakura-text .poetry.data-v-6b277275 {
+  position: absolute;
+  left: 40rpx;
+  top: 30rpx;
+  width: 28rpx;
+  font-family: "SakuraKai";
+  font-size: 28rpx;
+  line-height: 32rpx;
+  -webkit-writing-mode: vertical-lr;
+      -ms-writing-mode: tb-lr;
+          writing-mode: vertical-lr;
+}
+.sakura-text .name.data-v-6b277275 {
+  position: absolute;
+  left: 80rpx;
+  top: 30rpx;
+  width: 50rpx;
+  height: 150rpx;
+  font-family: "SakuraFont";
+  font-size: 50rpx;
+  line-height: 50rpx;
+}
+.mysakura.data-v-6b277275,
+.getsakura.data-v-6b277275 {
+  width: 240rpx;
+  height: 320rpx;
+  position: relative;
+  margin: 100rpx auto;
+  background: url('https://s5.wandougongzhu.cn/s/e0/myflower1_485615.png') no-repeat;
+  background-size: cover;
+}
+.mysakura-tips.data-v-6b277275 {
+  width: 100%;
+  position: absolute;
+  color: rgb(67, 67, 67);
+  bottom: 130rpx;
+  font-size: 24rpx;
+  font-family: "SakuraKai";
+  text-align: center;
+}
+.mysakura-btn.data-v-6b277275 {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translate(-50%,0);
+          transform: translate(-50%,0);
+  bottom: 20rpx;
+  width: 230rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  font-size: 28rpx;
+  color: #fff;
+  background: url('https://s2.wandougongzhu.cn/s/68/toyou_3d05c2.png') no-repeat;
+  background-size: 100% 100%;
+  margin: 0 auto;
+}
+.invite-sakura.data-v-6b277275 {
+  width: 200rpx;
+  height: 300rpx;
+  margin: 0 auto;
+  background: none;
+}
+.invite-btn.data-v-6b277275 {
+  width: 230rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  color: #fff;
+  position: relative;
+  border: none;
+  border-radius: 0;
+  background: url('https://s2.wandougongzhu.cn/s/68/toyou_3d05c2.png') no-repeat;
+  background-size: 100% 100%;
+  margin: 20rpx auto 0 auto;
+}
+.rule-box.data-v-6b277275 {
+  position: relative;
+  width: 100%;
+  background: url('https://s3.wandougongzhu.cn/s/72/botbg_f5add6.png') no-repeat;
+  background-position: bottom;
+  background-size: 100%;
+}
+.celendar.data-v-6b277275 {
+  width: 700rpx;
+  height: 480rpx;
+  margin: 0 auto;
+  z-index: 1;
+}
+.red-umbrella.data-v-6b277275 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 64rpx;
+  height: 220rpx;
+  z-index: 0;
+}
+.rule-content.data-v-6b277275 {
+  font-family: "SakuraKai";
+  font-size: 26rpx;
+  color: #191919;
+  line-height: 1.6;
+  text-align: left;
+  margin: 0 30rpx;
+}
+.rec-btn.data-v-6b277275 {
+  width: 234rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  margin: 140rpx auto 80rpx auto;
+  color: #fff;
+  border: 2rpx solid rgba(66, 80, 128,.5);
+  background-color: rgb(95, 109, 156);
+  background: url('https://s3.wandougongzhu.cn/s/01/_2fd8c9.png') no-repeat;
+  background-size: cover;
+}
+#mask.data-v-6b277275 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.7);
+}
+.container.data-v-6b277275 {
+  width: 100%;
+  height: 100%;
+  font-family: "SakuraKai";
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  background: url('https://s5.wandougongzhu.cn/s/83/_24bedc.jpg') no-repeat;
+  background-size: 100% auto;
+  background-color: #f3f2f1;
+}
+.tips.data-v-6b277275 {
+  margin-top: 180rpx;
+  font-size: 32rpx;
+  color: rgb(237, 61, 98);
+  -webkit-text-stroke: 1rpx #ffffff;
+  text-align: center;
+  font-weight: bold;
+}
+.tips-2.data-v-6b277275 {
+  margin: 10rpx auto 20rpx auto;
+  font-size: 26rpx;
+  color: rgb(88, 94, 141);
+}
+.tips-2 .num.data-v-6b277275 {
+  color: rgb(237, 61, 98);
+}
+.reel-box.data-v-6b277275 {
+  width: 720rpx;
+  height: 900rpx;
+  background: url('https://s.wandougongzhu.cn/s/27/all_786bff.png') no-repeat;
+  background-size: cover;
+  margin: 0 auto;
+  position: relative;
+}
+.flower-box.data-v-6b277275 {
+  margin-top: 40rpx;
+  font-family: "sakuraFont";
+}
+.flower-box .flower-item.data-v-6b277275 {
+  width: 150rpx;
+  height: 200rpx;
+  text-align: center;
+}
+.flower-box .top.data-v-6b277275 {
+  text-align: center;
+}
+.flower-box .top .flower-item.data-v-6b277275 {
+  margin: 0 auto;
+  position: relative;
+}
+.flower-item.data-v-6b277275 {
+  width: 150rpx;
+  height: 200rpx;
+  background: url(https://s5.wandougongzhu.cn/s/6a/flower_d713db.png) no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.flower-item .click-box.data-v-6b277275 {
+  width: inherit;
+  height: inherit;
+}
+.flower-item ._span.data-v-6b277275 {
+  font-size: 28rpx;
+  color: #fff;
+  position: absolute;
+  bottom: 40rpx;
+  left: 50%;
+  -webkit-transform: translate(-50%,0);
+          transform: translate(-50%,0);
+  width: 100rpx;
+}
+.flower-item.disflower.data-v-6b277275 {
+  background: url('https://s.wandougongzhu.cn/s/ab/disFlower_c08dae.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.flower-item.disflower ._span.data-v-6b277275 {
+  color: rgba(255, 255, 255, 0.2);
+}
+.flower-item.bottom-left ._span.data-v-6b277275,
+.flower-item.bottom-right ._span.data-v-6b277275 {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  margin-left: -50rpx;
+}
+.universal-flower.data-v-6b277275 {
+  margin-top: 40rpx;
+  font-family: "sakuraFont";
+}
+.universal-flower .flower-item.data-v-6b277275 {
+  width: 120rpx;
+  height: 160rpx;
+  background: url('https://s5.wandougongzhu.cn/s/e6/disflower-no_67817f.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.universal-flower .flower-item.choosed.data-v-6b277275 {
+  background: url('https://s5.wandougongzhu.cn/s/e0/myflower1_485615.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.dot.data-v-6b277275 {
+  position: relative;
+  width: 8rpx;
+  height: 8rpx;
+  background: #FFFFFF;
+  border-radius: 50%;
+  background: radial-gradient(rgba(255,255,255,1),rgba(255,255,255,0));
+  animation: twinkling-data-v-6b277275 1.5s infinite ease-in-out;
+  -webkit-animation: twinkling-data-v-6b277275 1.5s infinite ease-in-out;
+}
+.dot-1.data-v-6b277275 {
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  top: 80rpx;
+  left: 50rpx;
+  -webkit-animation-delay: 0.8s;
+          animation-delay: 0.8s;
+}
+.dot-2.data-v-6b277275 {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  top: 50rpx;
+  left: 90rpx;
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+.dot-3.data-v-6b277275 {
+  top: 70rpx;
+  left: 100rpx;
+}
+.dot-4.data-v-6b277275 {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+  top: 60rpx;
+  left: 70rpx;
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+}
+.dot-5.data-v-6b277275 {
+  top: 70rpx;
+  left: 120rpx;
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+.dot-6.data-v-6b277275 {
+  top: 70rpx;
+  left: 40rpx;
+}
+.dot-7.data-v-6b277275 {
+  top: 70rpx;
+  left: 70rpx;
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s;
+}
+.dot-8.data-v-6b277275 {
+  -webkit-transform: scale(1.6);
+          transform: scale(1.6);
+  top: 80rpx;
+  left: 100rpx;
+  -webkit-animation-delay: 1.3s;
+          animation-delay: 1.3s;
+}
+.dot-9.data-v-6b277275 {
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+  top: 80rpx;
+  left: 50rpx;
+}
+@keyframes twinkling-data-v-6b277275 {
+0% {
+    opacity: 0;
+}
+20% {
+    opacity: 0.4;
+}
+50% {
+    opacity: 1;
+}
+80% {
+    opacity: 0.4;
+}
+100% {
+    opacity: 0;
+}
+}
+@-webkit-keyframes twinkling {
+0% {
+    opacity: 0;
+}
+20% {
+    opacity: 0.4;
+}
+50% {
+    opacity: 1;
+}
+80% {
+    opacity: 0.4;
+}
+100% {
+    opacity: 0;
+}
+}
+.center.data-v-6b277275 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.center-left.data-v-6b277275 {
+  position: relative;
+  top: -80rpx;
+  left: -20rpx;
+  -webkit-transform: rotate(-72deg);
+          transform: rotate(-72deg);
+}
+.center-left .num-box.data-v-6b277275 {
+  -webkit-transform: rotate(72deg);
+          transform: rotate(72deg);
+}
+.center-right.data-v-6b277275 {
+  position: relative;
+  top: -80rpx;
+  left: 20rpx;
+  -webkit-transform: rotate(72deg);
+          transform: rotate(72deg);
+}
+.center-right .num-box.data-v-6b277275 {
+  left: 0;
+  -webkit-transform: rotate(-72deg);
+          transform: rotate(-72deg);
+}
+.mix-btn.data-v-6b277275 {
+  width: 150rpx;
+  height: 150rpx;
+  color: #fff;
+  font-size: 40rpx;
+  line-height: 150rpx;
+  background: url('https://s1.wandougongzhu.cn/s/d1/_ca6d40.png') no-repeat;
+  background-size: cover;
+  font-family: "sakuraKai";
+}
+.new-mix-btn.data-v-6b277275 {
+  background: url('https://s4.wandougongzhu.cn/s/a0/2_77ea79.png') no-repeat;
+  background-size: cover;
+}
+.flower-box .bottom.data-v-6b277275 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.bottom-left.data-v-6b277275 {
+  position: relative;
+  top: -76rpx;
+  left: -20rpx;
+  -webkit-transform: rotate(-144deg);
+          transform: rotate(-144deg);
+}
+.bottom-left .num-box.data-v-6b277275 {
+  -webkit-transform: rotate(144deg);
+          transform: rotate(144deg);
+}
+.bottom-right.data-v-6b277275 {
+  position: relative;
+  top: -72rpx;
+  left: 30rpx;
+  -webkit-transform: rotate(144deg);
+          transform: rotate(144deg);
+}
+.bottom-right .num-box.data-v-6b277275 {
+  left: 0;
+  -webkit-transform: rotate(-144deg);
+          transform: rotate(-144deg);
+}
+.universal-flower .center-left.data-v-6b277275 {
+  left: -40rpx;
+}
+.universal-flower .center-right.data-v-6b277275 {
+  left: 40rpx;
+}
+.universal-flower .bottom-left.data-v-6b277275 {
+  top: -120rpx;
+  left: 4rpx;
+}
+.universal-flower .bottom-right.data-v-6b277275 {
+  top: -120rpx;
+  left: 8rpx;
+}
+.rest-count.data-v-6b277275 {
+  color: rgb(88, 94, 141);
+  font-size: 26rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+.lottery-btn.data-v-6b277275 {
+  display: block;
+  width: 280rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  color: #fff;
+  text-align: center;
+  background: url('https://s3.wandougongzhu.cn/s/e6/_e4b383.png') no-repeat;
+  background-size: cover;
+  margin: 0 auto;
+}
+.task-title.data-v-6b277275,
+.rule-title.data-v-6b277275 {
+  width: 750rpx;
+  line-height: 80rpx;
+  margin: 0 auto;
+  font-size: 42rpx;
+  color: #191919;
+  font-weight: bold;
+  background: url('https://s4.wandougongzhu.cn/s/20/taskbg_4bad66.png') no-repeat;
+  background-size: 100%;
+}
+.rule-title.data-v-6b277275 {
+  background: url('https://s2.wandougongzhu.cn/s/e6/13_687fb2.png') no-repeat;
+  background-size: 100%;
+}
+.task-item.data-v-6b277275 {
+  width: 690rpx;
+  height: 120rpx;
+  font-size: 30rpx;
+  line-height: 120rpx;
+  color: #191919;
+  margin: 20rpx auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: url('https://s5.wandougongzhu.cn/s/88/_849809.png') no-repeat;
+  background-size: 100% 100%;
+}
+.task-item-evd.data-v-6b277275,
+.task-item-suc.data-v-6b277275 {
+  width: 74rpx;
+  height: 40rpx;
+  font-size: 24rpx;
+  line-height: 40rpx;
+  margin: 40rpx;
+  background: url('https://s.wandougongzhu.cn/s/82/evd_641d28.png') no-repeat;
+  background-size: cover;
+  text-align: center;
+  color: #fff;
+}
+.task-item-suc.data-v-6b277275 {
+  margin: 10rpx 40rpx;
+  background: url('https://s2.wandougongzhu.cn/s/2c/_2e897d.png') no-repeat;
+  background-size: cover;
+}
+.suc-box.data-v-6b277275 {
+  line-height: 60rpx;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.suc-box-top.data-v-6b277275 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.suc-box-bot.data-v-6b277275 {
+  margin-left: 40rpx;
+  text-align: left;
+}
+.task-item-name.data-v-6b277275 {
+}
+.task-item-img.data-v-6b277275 {
+  position: absolute;
+  right: 220rpx;
+  margin: 6rpx 0;
+}
+.task-item-img ._img.data-v-6b277275 {
+  width: 100rpx;
+  height: 108rpx;
+}
+.task-item-btn.data-v-6b277275 {
+  position: absolute;
+  right: 20rpx;
+  width: 130rpx;
+  height: 60rpx;
+  margin: 30rpx;
+  font-size: 28rpx;
+  line-height: 60rpx;
+  color: #fff;
+  text-align: center;
+  background: url('https://s1.wandougongzhu.cn/s/f2/done_be011c.png') no-repeat;
+  background-size: 100%;
+}
+.task-item-btn.done.data-v-6b277275 {
+  background: url('https://s5.wandougongzhu.cn/s/f0/havedone_cc8f95.png')
+		no-repeat;
+  background-size: contain;
+}
+.task-item-btn.receive.data-v-6b277275 {
+  color: #fff;
+  background: url('https://s1.wandougongzhu.cn/s/f2/done_be011c.png') no-repeat;
+  background-size: 100% 100%;
+}
+.task-item-btn ._button.data-v-6b277275 {
+  font-size: 28rpx;
+  line-height: 60rpx;
+  padding: 0;
+  color: #fff;
+  background-color: rgba(255,255,255,0);
+  border: none;
+}
+.to-invite.data-v-6b277275 {
+  color: rgb(73, 15, 0);
+  background: url('https://s5.wandougongzhu.cn/s/f8/ing_fe1225.png') no-repeat;
+  background-size: 100% 100%;
+}
+.rotate1.data-v-6b277275 {
+  -webkit-transform: rotate(72deg);
+          transform: rotate(72deg);
+}
+.rotate2.data-v-6b277275 {
+  -webkit-transform: rotate(144deg);
+          transform: rotate(144deg);
+}
+.rotate3.data-v-6b277275 {
+  -webkit-transform: rotate(-144deg);
+          transform: rotate(-144deg);
+}
+.rotate4.data-v-6b277275 {
+  -webkit-transform: rotate(-72deg);
+          transform: rotate(-72deg);
+}
+#mask.data-v-6b277275 {
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.compose-ani.data-v-6b277275,
+.compose-ani-2.data-v-6b277275,
+.compose-ani-3.data-v-6b277275,
+.shink.data-v-6b277275,
+.shink2.data-v-6b277275 {
+  opacity: 0;
+  position: absolute;
+  width: 600rpx;
+  height: 600rpx;
+  margin: 20rpx 74rpx;
+  background: url('https://s4.wandougongzhu.cn/s/41/cool2_58e3b1.png') no-repeat;
+  background-size: cover;
+  -webkit-animation: compose-data-v-6b277275 3s ease-in-out;
+  animation: compose-data-v-6b277275 3s ease-in-out;
+}
+.compose-ani-2.data-v-6b277275 {
+  opacity: 0;
+  z-index: 2;
+  background: url('https://s2.wandougongzhu.cn/s/c8/cool6_6d080f.png') no-repeat;
+  background-size: cover;
+  -webkit-animation: compose-2-data-v-6b277275 4s;
+  animation: compose-2-data-v-6b277275 4s;
+  -webkit-transform: scale(2);
+          transform: scale(2);
+}
+.compose-ani-3.data-v-6b277275 {
+  opacity: 1;
+  z-index: 3;
+  background: url('https://s1.wandougongzhu.cn/s/73/hua_11b087.png') no-repeat;
+  background-size: cover;
+  -webkit-animation: compose-3-data-v-6b277275 4s;
+  animation: compose-3-data-v-6b277275 4s;
+}
+.shink.data-v-6b277275 {
+  z-index: 2;
+  background: url('https://s5.wandougongzhu.cn/s/93/shink2_7a1dbd.png') no-repeat;
+  background-size: cover;
+  -webkit-transform: scale(2);
+          transform: scale(2);
+  -webkit-animation: shink-data-v-6b277275 0.5s infinite ease-in-out;
+  animation: shink-data-v-6b277275 0.5s infinite ease-in-out;
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+}
+.shink2.data-v-6b277275 {
+  z-index: 2;
+  background: url('https://s3.wandougongzhu.cn/s/bb/shink3_9c3028.png') no-repeat;
+  background-size: cover;
+  -webkit-transform: scale(2);
+          transform: scale(2);
+  -webkit-animation: shink2-data-v-6b277275 0.5s infinite ease-in-out;
+  animation: shink2-data-v-6b277275 0.5s infinite ease-in-out;
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+}
+@keyframes shink-data-v-6b277275 {
+0% {
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+}
+}
+@-webkit-keyframes shink {
+0% {
+    opacity: 1;
+}
+100% {
+    opacity: 0;
+}
+}
+@keyframes shink2-data-v-6b277275 {
+0% {
+    opacity: 0;
+}
+100% {
+    opacity: 1;
+}
+}
+@-webkit-keyframes shink2 {
+0% {
+    opacity: 0;
+}
+100% {
+    opacity: 1;
+}
+}
+@keyframes compose-data-v-6b277275 {
+0% {
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(0);
+            transform: scale(1) rotate(0);
+}
+100% {
+    opacity: 0;
+    -webkit-transform: scale(0.2) rotate(1080deg);
+            transform: scale(0.2) rotate(1080deg);
+}
+}
+@-webkit-keyframes compose {
+0% {
+    opacity: 1;
+    -webkit-transform: scale(0.2) rotate(0);
+            transform: scale(0.2) rotate(0);
+}
+100% {
+    opacity: 0.2;
+    -webkit-transform: scale(0.2) rotate(720deg);
+            transform: scale(0.2) rotate(720deg);
+}
+}
+@keyframes compose-2-data-v-6b277275 {
+0% {
+    opacity: 0;
+    -webkit-transform: scale(0.4) rotate(0);
+            transform: scale(0.4) rotate(0);
+}
+50% {
+    opacity: 0.2;
+    -webkit-transform: scale(0.4) rotate(720deg);
+            transform: scale(0.4) rotate(720deg);
+}
+100% {
+    opacity: 1;
+    -webkit-transform: scale(2) rotate(1440deg);
+            transform: scale(2) rotate(1440deg);
+}
+}
+@-webkit-keyframes compose-2 {
+0% {
+    opacity: 0;
+    -webkit-transform: scale(0.4) rotate(0);
+            transform: scale(0.4) rotate(0);
+}
+50% {
+    opacity: 0.2;
+    -webkit-transform: scale(0.4) rotate(720deg);
+            transform: scale(0.4) rotate(720deg);
+}
+100% {
+    opacity: 1;
+    -webkit-transform: scale(2) rotate(1440deg);
+            transform: scale(2) rotate(1440deg);
+}
+}
+@keyframes compose-3-data-v-6b277275 {
+0% {
+    opacity: 0;
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+}
+75% {
+    opacity: 0;
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+}
+100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}
+@-webkit-keyframes compose-3 {
+0% {
+    opacity: 0;
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+}
+75% {
+    opacity: 0;
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+}
+100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+}

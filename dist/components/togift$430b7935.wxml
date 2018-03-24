@@ -1,0 +1,28 @@
+<template name="togift$430b7935">
+  <view class="_div data-v-a06c8f74 container">
+    <view class="_div data-v-a06c8f74 title">请选择要赠送的花瓣</view>
+    <swiper class="_swiper data-v-a06c8f74 swiper-box" next-margin="35px"
+      previous-margin="35px" bindchange="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">
+      <swiper-item wx:key="item.index" key="{{item.index}}" wx:for="{{sakuraList}}"
+        wx:for-index="index" wx:for-item="item" class="_swiper-item data-v-a06c8f74">
+        <view class="_div data-v-a06c8f74 to-alert-box">
+          <view class="_div data-v-a06c8f74 sakura-text">
+            <view class="_div data-v-a06c8f74 name">{{item.sakura_name}}</view>
+            <view class="_div data-v-a06c8f74 poetry">{{item.poetry}}</view>
+          </view>
+          <image class="_img data-v-a06c8f74 mysakura {{(item.sakura_key == 'sakura_b')? 'rotate1' : ' '}} {{( item.sakura_key == 'sakura_c')? 'rotate2' : ' '}} {{( item.sakura_key == 'sakura_d')? 'rotate3' : ' '}} {{( item.sakura_key == 'sakura_e')? 'rotate4' : ' '}}"
+            src="https://s5.wandougongzhu.cn/s/e0/myflower1_485615.png"></image>
+          <view class="_div data-v-a06c8f74 mysakura-tips">
+            <view class="_p data-v-a06c8f74">多余的樱花瓣可以赠送给好友哦</view>
+            <view class="_p data-v-a06c8f74">每天首次赠送可获得1次抽樱花瓣的机会</view>
+          </view>
+          <view class="_div data-v-a06c8f74 ihave-sakura">拥有
+            <label class="_span data-v-a06c8f74">{{item.sakura_num}}</label>瓣</view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <button class="_button data-v-a06c8f74 mysakura-btn" open-type="share">
+      送给好友
+    </button>
+  </view>
+</template>

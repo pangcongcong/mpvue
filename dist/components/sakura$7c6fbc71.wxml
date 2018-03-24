@@ -1,0 +1,400 @@
+<template name="sakura$7c6fbc71">
+  <view class="_div data-v-2da408fc container">
+    <view class="_div data-v-2da408fc w-sakura" bindtap="handleProxy" data-eventid="{{'0'}}"
+      data-comkey="{{$k}}">
+      <view class="_div data-v-2da408fc">
+        万能樱
+        <label class="_span data-v-2da408fc">{{sakura_W_num}}</label>
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc tips">
+      每集齐1朵樱花分1份现金，集的越多分的越多
+    </view>
+    <view class="_div data-v-2da408fc tips-2">
+      已集齐
+      <label class="_span data-v-2da408fc num">{{totalSakuraNum}}朵</label>樱花
+      <label class="_span data-v-2da408fc">{{restText}}</label>
+    </view>
+    <view class="_div data-v-2da408fc reel-box">
+      <view class="_div data-v-2da408fc my-sakura-box">
+        合成的樱花
+        <view class="_div data-v-2da408fc my-sakura" wx:for="{{sakura_H_num}}"
+          wx:for-index="index" wx:for-item="item"></view>
+      </view>
+      <view class="_div data-v-2da408fc flower-box">
+        <view class="_div data-v-2da408fc top">
+          <view class="_div data-v-2da408fc flower-item {{(sakura_A_num == '0')? 'disflower' : ' '}}">
+            <label class="_span data-v-2da408fc">八重樱</label>
+            <view wx:if="{{sakura_A_num > 0}}" class="_div data-v-2da408fc click-box"
+              bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">
+              <view class="_div data-v-2da408fc num-box">{{sakura_A_num}}</view>
+              <view class="_div data-v-2da408fc dot-box">
+                <view class="_div data-v-2da408fc dot dot-1"></view>
+                <view class="_div data-v-2da408fc dot dot-2"></view>
+                <view class="_div data-v-2da408fc dot dot-3"></view>
+                <view class="_div data-v-2da408fc dot dot-4"></view>
+                <view class="_div data-v-2da408fc dot dot-5"></view>
+                <view class="_div data-v-2da408fc dot dot-6"></view>
+                <view class="_div data-v-2da408fc dot dot-7"></view>
+                <view class="_div data-v-2da408fc dot dot-8"></view>
+                <view class="_div data-v-2da408fc dot dot-9"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="_div data-v-2da408fc center">
+          <view class="_div data-v-2da408fc flower-item center-left {{(sakura_E_num == '0')? 'disflower' : ' '}}">
+            <label class="_span data-v-2da408fc">寒绯樱</label>
+            <view wx:if="{{sakura_E_num > 0}}" class="_div data-v-2da408fc click-box"
+              bindtap="handleProxy" data-eventid="{{'4'}}" data-comkey="{{$k}}">
+              <view class="_div data-v-2da408fc num-box">{{sakura_E_num}}</view>
+              <view class="_div data-v-2da408fc dot-box">
+                <view class="_div data-v-2da408fc dot dot-1"></view>
+                <view class="_div data-v-2da408fc dot dot-2"></view>
+                <view class="_div data-v-2da408fc dot dot-3"></view>
+                <view class="_div data-v-2da408fc dot dot-4"></view>
+                <view class="_div data-v-2da408fc dot dot-5"></view>
+                <view class="_div data-v-2da408fc dot dot-6"></view>
+                <view class="_div data-v-2da408fc dot dot-7"></view>
+                <view class="_div data-v-2da408fc dot dot-8"></view>
+                <view class="_div data-v-2da408fc dot dot-9"></view>
+              </view>
+            </view>
+          </view>
+          <view class="_div data-v-2da408fc mix-btn {{(is_compose)? 'new-mix-btn' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'5'}}" data-comkey="{{$k}}">合成</view>
+          <view class="_div data-v-2da408fc flower-item center-right {{(sakura_B_num == '0')? 'disflower' : ' '}}">
+            <label class="_span data-v-2da408fc">吉野樱</label>
+            <view wx:if="{{sakura_B_num > 0}}" class="_div data-v-2da408fc click-box"
+              bindtap="handleProxy" data-eventid="{{'7'}}" data-comkey="{{$k}}">
+              <view class="_div data-v-2da408fc num-box">{{sakura_B_num}}</view>
+              <view class="_div data-v-2da408fc dot-box">
+                <view class="_div data-v-2da408fc dot dot-1"></view>
+                <view class="_div data-v-2da408fc dot dot-2"></view>
+                <view class="_div data-v-2da408fc dot dot-3"></view>
+                <view class="_div data-v-2da408fc dot dot-4"></view>
+                <view class="_div data-v-2da408fc dot dot-5"></view>
+                <view class="_div data-v-2da408fc dot dot-6"></view>
+                <view class="_div data-v-2da408fc dot dot-7"></view>
+                <view class="_div data-v-2da408fc dot dot-8"></view>
+                <view class="_div data-v-2da408fc dot dot-9"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="_div data-v-2da408fc bottom">
+          <view class="_div data-v-2da408fc flower-item bottom-left {{(sakura_D_num == '0')? 'disflower' : ' '}}">
+            <label class="_span data-v-2da408fc">淡墨樱</label>
+            <view wx:if="{{sakura_D_num > 0}}" class="_div data-v-2da408fc click-box"
+              bindtap="handleProxy" data-eventid="{{'9'}}" data-comkey="{{$k}}">
+              <view class="_div data-v-2da408fc num-box">{{sakura_D_num}}</view>
+              <view class="_div data-v-2da408fc dot-box">
+                <view class="_div data-v-2da408fc dot dot-1"></view>
+                <view class="_div data-v-2da408fc dot dot-2"></view>
+                <view class="_div data-v-2da408fc dot dot-3"></view>
+                <view class="_div data-v-2da408fc dot dot-4"></view>
+                <view class="_div data-v-2da408fc dot dot-5"></view>
+                <view class="_div data-v-2da408fc dot dot-6"></view>
+                <view class="_div data-v-2da408fc dot dot-7"></view>
+                <view class="_div data-v-2da408fc dot dot-8"></view>
+                <view class="_div data-v-2da408fc dot dot-9"></view>
+              </view>
+            </view>
+          </view>
+          <view class="_div data-v-2da408fc flower-item bottom-right {{(sakura_C_num == '0')? 'disflower' : ' '}}">
+            <label class="_span data-v-2da408fc">大岛樱</label>
+            <view wx:if="{{sakura_C_num > 0}}" class="_div data-v-2da408fc click-box"
+              bindtap="handleProxy" data-eventid="{{'11'}}" data-comkey="{{$k}}">
+              <view class="_div data-v-2da408fc num-box">{{sakura_C_num}}</view>
+              <view class="_div data-v-2da408fc dot-box">
+                <view class="_div data-v-2da408fc dot dot-1"></view>
+                <view class="_div data-v-2da408fc dot dot-2"></view>
+                <view class="_div data-v-2da408fc dot dot-3"></view>
+                <view class="_div data-v-2da408fc dot dot-4"></view>
+                <view class="_div data-v-2da408fc dot dot-5"></view>
+                <view class="_div data-v-2da408fc dot dot-6"></view>
+                <view class="_div data-v-2da408fc dot dot-7"></view>
+                <view class="_div data-v-2da408fc dot dot-8"></view>
+                <view class="_div data-v-2da408fc dot dot-9"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="_div data-v-2da408fc rest-count">
+        今日剩余次数
+        <label class="_span data-v-2da408fc">{{rest_count || 0}}</label>/4
+      </view>
+      <view class="_div data-v-2da408fc lottery-btn" wx:if="{{restDay > 0 || restDay == '-1'}}"
+        bindtap="handleProxy" data-eventid="{{'13'}}" data-comkey="{{$k}}">
+        抽樱花瓣
+      </view>
+      <navigator url="/pages/tocash/tocash" class="_a data-v-2da408fc lottery-btn"
+        wx:if="{{restDay == '0' }}" bindtap="handleProxy" data-eventid="{{'15'}}" data-comkey="{{$k}}">
+        兑换现金
+      </navigator>
+    </view>
+    <view class="_div data-v-2da408fc task-box">
+      <view class="_div data-v-2da408fc task-title">
+        做任务 领奖励
+      </view>
+      <view class="_div data-v-2da408fc task-item" wx:key="item.task_id"
+        key="{{item.task_id}}" wx:for="{{taskList}}" wx:for-index="index" wx:for-item="item">
+        <view class="_div data-v-2da408fc task-item-evd">每日</view>
+        <view class="_div data-v-2da408fc task-item-name">{{item.name}}</view>
+        <view class="_div data-v-2da408fc task-item-img">
+          <image src="https://s3.wandougongzhu.cn/s/bc/_157403.png" alt class="_img data-v-2da408fc"></image>
+        </view>
+        <view wx:if="{{item.status == '0'}}" class="_div data-v-2da408fc task-item-btn receive"
+          bindtap="handleProxy" data-eventid="{{'17-'+index}}" data-comkey="{{$k}}">
+          领取
+        </view>
+        <view wx:if="{{item.status == '1'}}" class="_div data-v-2da408fc task-item-btn done"></view>
+        <view wx:if="{{item.status == '-1'}}" class="_div data-v-2da408fc task-item-btn"
+          bindtap="handleProxy" data-eventid="{{'19-'+index}}" data-comkey="{{$k}}">
+          <button wx:if="{{index == 2}}" open-type="share" data-type="{{1}}" class="_button data-v-2da408fc">
+            去完成
+          </button>
+          <view wx:if="{{index != 2}}" class="_div data-v-2da408fc">
+            去完成
+          </view>
+        </view>
+      </view>
+      <view class="_div data-v-2da408fc task-item">
+        <view class="_div data-v-2da408fc suc-box">
+          <view class="_div data-v-2da408fc suc-box-top">
+            <view class="_div data-v-2da408fc task-item-evd task-item-suc">成就</view>
+            <label class="_span data-v-2da408fc task-item-name">邀请好友注册</label>
+          </view>
+          <view class="_div data-v-2da408fc suc-box-bot">
+            已注册
+            <label class="_span data-v-2da408fc">{{inviteCount || 0}}</label>人
+          </view>
+        </view>
+        <view class="_div data-v-2da408fc task-item-img">
+          <view wx:if="{{sakura_W_num > 0}}" class="_div data-v-2da408fc num">{{sakura_W_num}}</view>
+          <image src="https://s.wandougongzhu.cn/s/0e/_16ec47.png"
+            alt class="_img data-v-2da408fc"></image>
+        </view>
+        <view class="_div data-v-2da408fc to-invite {{(true)? 'task-item-btn' : ' '}}"
+          bindtap="handleProxy" data-eventid="{{'20'}}" data-comkey="{{$k}}">去邀请</view>
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc rule-box">
+      <view class="_div data-v-2da408fc rule-title">活动规则</view>
+      <image class="_img data-v-2da408fc celendar" src="https://s4.wandougongzhu.cn/s/5d/_f90015.png"
+        alt></image>
+      <image class="_img data-v-2da408fc red-umbrella" src="https://s4.wandougongzhu.cn/s/4d/shanzi_eee532.png"
+        alt></image>
+      <view class="_div data-v-2da408fc rule-content">
+        <view class="_div data-v-2da408fc">
+          <view class="_p data-v-2da408fc rule-p-title">活动分为两个阶段</view>
+          <view class="_p data-v-2da408fc">1.集花瓣阶段：4月1日 - 4月10日，可以通过完成每日任务，获得抽樱花瓣的机会。通过消耗樱花瓣各1个合成樱花。</view>
+          <view
+            class="_p data-v-2da408fc">2.分现金阶段：4月11日 - 4月13日，可将合成的樱花兑换现金，或豌豆公主积分。4月11日0点系统会将符合条件的樱花瓣自动合成樱花</view>
+        <view class="_p data-v-2da408fc">3.活动期间，完成以下任务可获得抽樱花瓣的机会：访问活动页，分享活动到微信，赠送好友1瓣樱花，浏览豌豆公主首页。每天每个任务每个账号最多完成1次。</view>
+        <view class="_p data-v-2da408fc">4.抽樱花次数会在次日0点清空，请在0点前全部用完。</view>
+        <view class="_p data-v-2da408fc">5.分现金将在4月11日早10:00开启，于4月13日24:00结束，结束后樱花将无法兑换现金，请务必在活动前完成兑换。</view>
+      </view>
+      <view class="_div data-v-2da408fc rule-show-more {{(ruleShowMore)? 'shouqi' : ' '}}"
+        bindtap="handleProxy" data-eventid="{{'21'}}" data-comkey="{{$k}}">{{ruleShowMore ? '收起' :'展开更多'}}</view>
+      <view wx:if="{{ruleShowMore}}" class="_div data-v-2da408fc">
+        <view class="_p data-v-2da408fc faq-title">FAQ</view>
+        <view class="_p data-v-2da408fc faq-q">1.我要如何赠送好友樱花瓣</view>
+        <view class="_p data-v-2da408fc">当拥有的樱花瓣数量大于1个时，点击樱花瓣或赠送好友1瓣任务，可将樱花瓣发送给好友。</view>
+        <view class="_p data-v-2da408fc faq-q">2.赠送好友的樱花瓣在何时扣除</view>
+        <view class="_p data-v-2da408fc">选择樱花瓣后，无论是否分享或是否有人领取，樱花瓣都将被扣除。请在选择樱花瓣后完成分享流程，中途中止也不会返还樱花瓣。</view>
+        <view class="_p data-v-2da408fc faq-q">3.4月11日如果还有未合成的樱花瓣该怎么办</view>
+        <view class="_p data-v-2da408fc">4月11日0点系统会自动帮您合成樱花瓣，同时集花瓣入口将关闭，所以不满足各5瓣的樱花将无法合成樱花。</view>
+        <view class="_p data-v-2da408fc faq-q">4.什么是万能樱</view>
+        <view class="_p data-v-2da408fc">万能樱是通过完成特殊任务收集到的，可以兑换任意一瓣樱花。</view>
+        <view class="_p data-v-2da408fc faq-q">5.邀请好友注册如何获得万能樱</view>
+        <view class="_p data-v-2da408fc">好友在您的分享页完成注册并验证手机号，您将获得万能樱1个。</view>
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc rec-btn" bindtap="handleProxy" data-eventid="{{'22'}}"
+      data-comkey="{{$k}}">
+      赠领记录
+    </view>
+  </view>
+  <view id="mask" wx:if="{{maskShow}}" class="_div data-v-2da408fc">
+    <view class="_div data-v-2da408fc compose-box" wx:if="{{composeShow}}">
+      <view class="_div data-v-2da408fc compose-tips">
+        恭喜获得一朵樱花
+      </view>
+      <view class="_div data-v-2da408fc compose-ani"></view>
+      <view class="_div data-v-2da408fc compose-ani-2"></view>
+      <view class="_div data-v-2da408fc compose-ani-3"></view>
+      <view class="_div data-v-2da408fc shink"></view>
+      <view class="_div data-v-2da408fc shink2"></view>
+      <view class="_div data-v-2da408fc compose-btn" bindtap="handleProxy"
+        data-eventid="{{'59'}}" data-comkey="{{$k}}">确定</view>
+    </view>
+    <view class="_div data-v-2da408fc to-alert-box" wx:if="{{sakuraDetailShow}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'60'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc sakura-text">
+        <view class="_div data-v-2da408fc name">{{sakuraDetailName}}</view>
+        <view class="_div data-v-2da408fc poetry">{{sakuraDetailPoetry}}</view>
+      </view>
+      <image class="_img data-v-2da408fc mysakura {{(sakuraDetailKey == 'sakura_b')? 'rotate1' : ' '}} {{( sakuraDetailKey == 'sakura_c')? 'rotate2' : ' '}} {{( sakuraDetailKey == 'sakura_d')? 'rotate3' : ' '}} {{( sakuraDetailKey == 'sakura_e')? 'rotate4' : ' '}}"
+        src="https://s5.wandougongzhu.cn/s/e0/myflower1_485615.png"></image>
+      <view class="_div data-v-2da408fc mysakura-tips">
+        <view class="_p data-v-2da408fc">多余的樱花瓣可以赠送给好友哦</view>
+        <view class="_p data-v-2da408fc">每天首次赠送可获得1次抽樱花瓣的机会</view>
+      </view>
+      <button open-type="share" data-type="{{0}}" class="_button data-v-2da408fc mysakura-btn">
+        送给好友
+      </button>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{lotteryResShow}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'61'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc mysakura-text">
+        <view class="_div data-v-2da408fc congratulation">恭喜你，获得了</view>
+        <view class="_div data-v-2da408fc name">{{lottery_res.sakura_name}}</view>
+      </view>
+      <view class="_div data-v-2da408fc getsakura"></view>
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy"
+        data-eventid="{{'62'}}" data-comkey="{{$k}}">
+        确定
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{sakuraAllShow}}">
+      <view class="_div data-v-2da408fc mysakura-text">
+        <view class="_div data-v-2da408fc congratulation">恭喜你，获得了</view>
+        <view class="_div data-v-2da408fc name">万能樱</view>
+      </view>
+      <view class="_div data-v-2da408fc universal">
+        <view class="_div data-v-2da408fc dot-box">
+          <view class="_div data-v-2da408fc dot dot-1"></view>
+          <view class="_div data-v-2da408fc dot dot-2"></view>
+          <view class="_div data-v-2da408fc dot dot-3"></view>
+          <view class="_div data-v-2da408fc dot dot-4"></view>
+          <view class="_div data-v-2da408fc dot dot-5"></view>
+          <view class="_div data-v-2da408fc dot dot-6"></view>
+          <view class="_div data-v-2da408fc dot dot-7"></view>
+          <view class="_div data-v-2da408fc dot dot-8"></view>
+          <view class="_div data-v-2da408fc dot dot-9"></view>
+        </view>
+      </view>
+      <view class="_div data-v-2da408fc mysakura-btn">
+        确定
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{inviteSakuraAllShow}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'63'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc invite-text">
+        <view class="_div data-v-2da408fc invite-title">邀请好友注册得万能樱</view>
+        <view class="_div data-v-2da408fc">万能樱可兑换任意一朵花瓣</view>
+      </view>
+      <image class="_img data-v-2da408fc getsakura invite-sakura" src="https://s2.wandougongzhu.cn/s/9f/wan_ebbf7a.png"></image>
+      <button class="_button data-v-2da408fc invite-btn" open-type="share"
+        data-type="{{2}}">
+        去邀请
+      </button>
+      <view class="_div data-v-2da408fc">花瓣在好友验证手机号后发放</view>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{sakuraAllChangeShow}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'64'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc mysakura-text">
+        <view class="_div data-v-2da408fc universal-compose">万能樱兑换</view>
+        <view class="_div data-v-2da408fc universal-tips">使用1个万能樱可以兑换任意1朵花瓣</view>
+      </view>
+      <view class="_div data-v-2da408fc flower-box universal-flower">
+        <view class="_div data-v-2da408fc top">
+          <view class="_div data-v-2da408fc flower-item {{(sakura_a_choosed)? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'65'}}" data-comkey="{{$k}}">
+            <label class="_span data-v-2da408fc">八重樱</label>
+          </view>
+        </view>
+        <view class="_div data-v-2da408fc center">
+          <view class="_div data-v-2da408fc flower-item center-left {{(sakura_e_choosed)? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'66'}}" data-comkey="{{$k}}">
+            <label class="_span data-v-2da408fc">寒绯樱</label>
+          </view>
+          <view class="_div data-v-2da408fc flower-item center-right {{(sakura_b_choosed)? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'67'}}" data-comkey="{{$k}}">
+            <label class="_span data-v-2da408fc">吉野樱</label>
+          </view>
+        </view>
+        <view class="_div data-v-2da408fc bottom">
+          <view class="_div data-v-2da408fc flower-item bottom-left {{(sakura_d_choosed)? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'68'}}" data-comkey="{{$k}}">
+            <label class="_span data-v-2da408fc">淡墨樱</label>
+          </view>
+          <view class="_div data-v-2da408fc flower-item bottom-right {{(sakura_c_choosed)? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'69'}}" data-comkey="{{$k}}">
+            <label class="_span data-v-2da408fc">大岛樱</label>
+          </view>
+        </view>
+      </view>
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'70'}}"
+        data-comkey="{{$k}}">
+        兑换
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{giftRecShow}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'71'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc gift-res-title">
+        赠领记录
+      </view>
+      <view class="_div data-v-2da408fc gift-res-content">
+        <view class="_div data-v-2da408fc gift-res-item" wx:if="{{giftRecList.length > 0}}"
+          wx:for="{{giftRecList}}" wx:for-index="index" wx:for-item="item">
+          <view wx:if="{{item.type == '1'}}" class="_div data-v-2da408fc">
+            <view wx:if="{{item.from_user_nickname}}" class="_div data-v-2da408fc rec">赠送的
+              <label class="_span data-v-2da408fc">{{item.sakura_name}}</label>被
+              <label class="_span data-v-2da408fc">{{item.from_user_nickname}}</label>领取了</view>
+            <view wx:if="{{!item.from_user_nickname}}"
+              class="_div data-v-2da408fc rec">赠送的
+              <label class="_span data-v-2da408fc">{{item.sakura_name}}</label>待领取</view>
+          </view>
+          <view wx:if="{{item.type == '2'}}" class="_div data-v-2da408fc">
+            <view class="_div data-v-2da408fc rec">领取了
+              <label class="_span data-v-2da408fc">{{item.from_user_nickname}}</label>的
+              <label class="_span data-v-2da408fc">{{item.sakura_name}}</label>
+            </view>
+          </view>
+          <view class="_div data-v-2da408fc time">{{item.mtime}}</view>
+        </view>
+        <view class="_div data-v-2da408fc gift-res-item-null" wx:if="{{giftRecList.length == 0}}">
+          暂时没有赠领记录哦～快去分享给好友吧
+        </view>
+      </view>
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'72'}}"
+        data-comkey="{{$k}}">
+        确定
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{inviteShareSakura}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'73'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc mysakura-text">
+        <view class="_div data-v-2da408fc congratulation">好友
+          <label class="_span data-v-2da408fc">{{inviteUser}}</label>送你一朵</view>
+        <view class="_div data-v-2da408fc name">{{inviteShareSakuraName}}</view>
+      </view>
+      <view class="_div data-v-2da408fc getsakura"></view>
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy"
+        data-eventid="{{'74'}}" data-comkey="{{$k}}">
+        确定
+      </view>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box suc-alert-box" wx:if="{{showHaveDone}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'75'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc mysakura-text">
+        <view class="_div data-v-2da408fc name">手慢了，花瓣已被别人领取</view>
+      </view>
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'76'}}"
+        data-comkey="{{$k}}">
+        确定
+      </view>
+    </view>
+  </view>
+  </view>
+</template>
