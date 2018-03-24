@@ -458,15 +458,23 @@ app.$mount();
 			sakura_id: '',
 			checkInfo: '',
 			haveDone: false,
-			showHaveDone: false
+			showHaveDone: false,
+			recv_id: ''
 		};
 	},
 	onLoad: function onLoad() {
 		this.getRestDay();
 		this.option = this.$root.$mp.query;
+		console.log(this.option);
 
-		if (WMP.globalData.userInfo && WMP.globalData.userInfo.user_id) {
-			if (this.user_id == WMP.globalData.userInfo.user_id) {
+		if (!WMP.globalData.userInfo || !WMP.globalData.userInfo.user_id) {
+			this.showGetSakuraAlert();
+			if (this.option.sakura_id) {
+				this.maskShow = true;
+				this.inviteShareSakura = true;
+			}
+		} else {
+			if (this.option.user_id == WMP.globalData.userInfo.user_id) {
 				wx.showToast({
 					title: '不能领取自己分享的花瓣～',
 					icon: 'none',
@@ -474,16 +482,10 @@ app.$mount();
 				});
 			} else {
 				this.getUserActInfo();
-				if (this.option.sakura_key) {
+				if (this.option.sakura_id) {
 					this.maskShow = true;
 					this.inviteShareSakura = true;
 				}
-			}
-		} else {
-			this.showGetSakuraAlert();
-			if (this.option.sakura_key) {
-				this.maskShow = true;
-				this.inviteShareSakura = true;
 			}
 		}
 	},
@@ -498,19 +500,19 @@ app.$mount();
 			Net.get('Sakura.userGiftSakura', {
 				data: {
 					user_id: this.user_id,
-					sakura_key: self.sakuraDetailKey
+					sakura_key: this.sakuraDetailKey
 				}
 			}).then(function (res) {
 				if (res.errno == '0') {
 					_this.sakura_id = res.data.sakura_id;
-					console.log('/pages/sakura/sakura?share_sakura=' + _this.sakuraDetailName + '&user_id=' + _this.user_id + "&sakura_id=" + _this.sakura_id);
+					console.log('/pages/sakura/sakura?sakura_key=' + _this.sakuraDetailKey + '&user_id=' + _this.user_id + "&sakura_id=" + _this.sakura_id);
 				} else {
 					wx.showModal({ title: '提示', content: res.errmsg });
 				}
 			});
 			return {
 				title: '送你一朵' + this.sakuraDetailName + '，快来和我平分100万现金！',
-				path: '/pages/sakura/sakura?share_sakura=' + this.sakuraDetailName + '&user_id=' + this.user_id + "&sakura_id=" + this.sakura_id,
+				path: '/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey + '&user_id=' + this.user_id + "&sakura_id=" + this.sakura_id,
 				imageUrl: this.shareImgBtn[this.sakuraDetailKey],
 				success: function success() {
 					wx.showToast({
@@ -621,10 +623,11 @@ app.$mount();
 				data: {
 					user_id: '0',
 					from_user_id: this.option.user_id,
-					sakura_id: this.option.user_id
+					sakura_id: this.option.sakura_id
 				}
 			}).then(function (res) {
 				if (res.errno == '0') {
+					console.log(_this2.option);
 					_this2.taskList = res.data.day_task;
 					var infoList = res.data.info;
 					_this2.sakura_A_num = infoList.sakura_a;
@@ -644,6 +647,9 @@ app.$mount();
 					// this.user_id = infoList.user_id;
 					_this2.totalSakuraNum = res.data.h_sakura_count;
 					_this2.inviteCount = res.data.invite_count;
+					_this2.inviteUser = res.data.gift_sakura.gift_user_name;
+					_this2.inviteShareSakuraName = res.data.gift_sakura.sakura_name;
+					_this2.recv_id = res.data.gift_sakura.recv_user_id;
 				} else {
 					wx.showModal({ title: '提示', content: res.errmsg });
 				}
@@ -652,6 +658,7 @@ app.$mount();
 		checkAuth: function checkAuth() {
 			var _this3 = this;
 
+			console.log(this.option);
 			if (WMP.globalData.userInfo && WMP.globalData.userInfo.user_id) {
 				Net.get('Sakura.userRecvGiftSakura', {
 					data: {
@@ -665,7 +672,8 @@ app.$mount();
 							_this3.inviteUser = res.data.from_user_display_name;
 							_this3.inviteShareSakuraName = res.data.sakura_name;
 							_this3.maskShow = true;
-							_this3.inviteShareSakura = true;
+							_this3.inviteShareSakura = false;
+							_this3.showHaveDone = true;
 						} else {
 							if (_this3.option.user_id == _this3.user_id) {
 								wx.showToast({
@@ -674,8 +682,17 @@ app.$mount();
 									duration: 2000
 								});
 							} else {
-								_this3.showHaveDone = true;
-								_this3.maskShow = true;
+								if (_this3.recv_id != '0') {
+									_this3.showHaveDone = true;
+									_this3.inviteShareSakura = false;
+									_this3.maskShow = true;
+								} else {
+									wx.showToast({
+										title: '领取成功',
+										icon: 'success',
+										duration: 2000
+									});
+								}
 							}
 						}
 					}
@@ -693,9 +710,14 @@ app.$mount();
 
 			this.maskShow = false;
 			this.inviteShareSakura = false;
+			this.userInfo = WMP.globalData.userInfo;
+			this.user_id = this.userInfo.user_id;
+			console.log(this.option);
 			Net.get('Sakura.getUserActivityInfoByUserId', {
 				data: {
-					user_id: this.user_id
+					user_id: this.user_id,
+					from_user_id: this.option.user_id,
+					sakura_id: this.option.sakura_id
 				}
 			}).then(function (res) {
 				if (res.errno == '0') {
@@ -718,11 +740,10 @@ app.$mount();
 					// this.user_id = infoList.user_id;
 					_this4.totalSakuraNum = res.data.h_sakura_count;
 					_this4.inviteCount = res.data.invite_count;
-					// if (res.data.user_reward_tip == '1') {
-					// 	this.sakuraAllShow = true;
-					// } else {
-					// 	this.sakuraAllShow = false;
-					// }
+					_this4.inviteUser = res.data.gift_sakura.gift_user_name;
+					_this4.inviteShareSakuraName = res.data.gift_sakura.sakura_name;
+				} else if (errno == '2008') {
+					WMP.checkAuthPromise(_this4);
 				} else {
 					wx.showModal({ title: '提示', content: res.errmsg });
 				}
@@ -778,6 +799,8 @@ app.$mount();
 			this.lotteryResShow = false;
 			this.sakuraAllShow = false;
 			this.inviteSakuraAllShow = false;
+			this.showHaveDone = false;
+
 			this.maskShow = true;
 			this.sakuraDetailShow = true;
 		},
@@ -924,7 +947,7 @@ app.$mount();
 			this.getUserActInfo();
 		},
 		shareSakura: function shareSakura() {},
-		lotterySakura: function lotterySakura() {
+		_lotterySakura: function _lotterySakura() {
 			var _this6 = this;
 
 			Net.post('Sakura.userLotterySakura', {
@@ -947,43 +970,62 @@ app.$mount();
 				}
 			});
 		},
-		changeSakura: function changeSakura() {
+		lotterySakura: function lotterySakura() {
 			var _this7 = this;
+
+			var self = this;
+			WMP.checkAuthPromise(this).then(function () {
+				_this7.userInfo = WMP.globalData.userInfo;
+				_this7.user_id = _this7.userInfo.user_id;
+				_this7._lotterySakura();
+			});
+		},
+		changeSakura: function changeSakura() {
+			var _this8 = this;
 
 			console.log(this.exchange_sakura_key);
 			if (this.exchange_sakura_key) {
-				Net.get('Sakura.userExchangeSakuraW', {
-					data: {
-						user_id: this.user_id,
-						exchange_sakura_key: this.exchange_sakura_key
-					}
-				}).then(function (res) {
-					if (res.errno == '0') {
-						_this7.sakuraDetailShow = false;
-						_this7.composeShow = false;
-						_this7.lotteryResShow = false;
-						_this7.sakuraAllShow = false;
-						_this7.inviteSakuraAllShow = false;
-						_this7.giftRecShow = false;
-						_this7.showHaveDone = false;
-						_this7.maskShow = true;
-						_this7.sakuraAllChangeShow = true;
-					} else {
-						_this7.maskShow = false;
-						_this7.sakuraAllChangeShow = false;
-						wx.showModal({ title: '提示', content: res.errmsg });
-					}
-				});
+				if (this.sakura_W_num > 0) {
+					Net.get('Sakura.userExchangeSakuraW', {
+						data: {
+							user_id: this.user_id,
+							exchange_sakura_key: this.exchange_sakura_key
+						}
+					}).then(function (res) {
+						if (res.errno == '0') {
+							_this8.sakuraDetailShow = false;
+							_this8.composeShow = false;
+							_this8.lotteryResShow = false;
+							_this8.sakuraAllShow = false;
+							_this8.inviteSakuraAllShow = false;
+							_this8.giftRecShow = false;
+							_this8.showHaveDone = false;
+							_this8.maskShow = true;
+							_this8.sakuraAllChangeShow = true;
+							_this8.getUserActInfo();
+						} else {
+							_this8.maskShow = false;
+							_this8.sakuraAllChangeShow = false;
+							wx.showModal({ title: '提示', content: res.errmsg });
+						}
+					});
+				} else {
+					wx.showToast({
+						title: '万能樱不足～',
+						icon: 'error',
+						duration: 1500
+					});
+				}
 			} else {
 				wx.showToast({
-					title: '请选择一个花瓣s',
+					title: '请选择一个花瓣',
 					icon: 'error',
 					duration: 1500
 				});
 			}
 		},
 		getTask: function getTask(task_id) {
-			var _this8 = this;
+			var _this9 = this;
 
 			var paramTask = task_id;
 			Net.post('Sakura.userRecvTask', {
@@ -998,7 +1040,7 @@ app.$mount();
 						icon: 'success',
 						duration: 1500
 					});
-					_this8.getUserActInfo();
+					_this9.getUserActInfo();
 				} else {
 					wx.showModal({ title: '提示', content: res.errmsg });
 				}
@@ -1252,7 +1294,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "suc-box"
   }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "suc-box-bot"
-  }, [_vm._v("\n\t\t\t\t\t已注册"), _c('span', [_vm._v(_vm._s(_vm.inviteCount || 0))]), _vm._v("人\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t\t\t\t已注册"), _c('span', [_vm._v(_vm._s(_vm.inviteCount ? _vm.inviteCount : 0))]), _vm._v("人\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "task-item-img"
   }, [(_vm.sakura_W_num > 0) ? _c('div', {
     staticClass: "num"

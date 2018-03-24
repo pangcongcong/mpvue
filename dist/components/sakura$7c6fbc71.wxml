@@ -168,7 +168,7 @@
           </view>
           <view class="_div data-v-2da408fc suc-box-bot">
             已注册
-            <label class="_span data-v-2da408fc">{{inviteCount || 0}}</label>人
+            <label class="_span data-v-2da408fc">{{inviteCount ? inviteCount : 0 }}</label>人
           </view>
         </view>
         <view class="_div data-v-2da408fc task-item-img">
