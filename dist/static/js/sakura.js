@@ -1,4 +1,5 @@
 import Net from '../../util/net2';
+import Auth from '../../util/auth';
 let WMP = getApp();
 global.webpackJsonp([5],{
 
@@ -417,31 +418,11 @@ app.$mount();
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 	data: function data() {
 		return {
-			form_id: true,
 			user_id: '',
 			userInfo: {},
 			flowerStatus: '0',
@@ -458,15 +439,12 @@ app.$mount();
 			is_compose: false, //是否可以合成樱花
 			rest_count: 0, //剩余抽奖次数
 			lottery_res: {}, //抽取樱花瓣结果
-			lotteryResShow: false, //抽取花瓣显示弹框
 			maskShow: false, //蒙层
 			taskList: [],
 			totalSakuraNum: 0,
 			restDay: 10,
 			restText: '',
 			lock: false,
-			sakuraDetailShow: false, //点击某个花瓣显示的弹框
-			composeShow: false, //合成动画效果显示
 			sakuraDetailKey: 'sakura_a',
 			sakuraDetailRotate: 0, //旋转角度
 			sakuraDetailName: '八重樱',
@@ -481,43 +459,33 @@ app.$mount();
 			}, //分享花瓣给好友图了list
 			shareSakura: 'sakura_a',
 			sakura_All_num: 0, //万能花瓣数量
-			sakuraAllChangeShow: false, //万能樱兑换其他花瓣弹框
-			sakura_a_choosed: false,
-			sakura_b_choosed: false,
-			sakura_c_choosed: false,
-			sakura_d_choosed: false,
-			sakura_e_choosed: false,
+			sakura_whitch_choosed: '',
 			exchange_sakura_key: '', //要兑换的花瓣
 			inviteCount: 0, //邀请好友数量
 			ruleShowMore: false,
 			ruleShowText: '展开更多',
-			giftRecShow: false, //显示赠领记录
 			giftRecList: [], //赠领记录
-			sakuraAllShow: false, //恭喜获得万能樱/是否新人？
 			invite_sakura: '', //通过邀请来领取的花瓣key
 			invite_user_id: '', //邀请人id
-			inviteSakuraAllShow: false, //邀请好友得万能樱弹框
 			option: '',
 			inviteUser: '', //好友昵称
-			inviteShareSakura: false, //好友送的樱花弹框
 			inviteShareSakuraName: '', //好友送的**盈
 			sakura_id: '',
 			checkInfo: '',
 			haveDone: false,
-			showHaveDone: false,
-			recv_id: ''
+			recv_id: '',
+			showAlert: ''
 		};
 	},
 	onLoad: function onLoad() {
 		this.getRestDay();
 		this.option = this.$root.$mp.query;
-		console.log(this.option);
 
 		if (!WMP.globalData.userInfo || !WMP.globalData.userInfo.user_id) {
 			this.showGetSakuraAlert();
-			if (this.option.sakura_id) {
+			if (this.option.sakura_key) {
 				this.maskShow = true;
-				this.inviteShareSakura = true;
+				this.showAlert = 'inviteShareSakura';
 			}
 		} else {
 			if (this.option.user_id == WMP.globalData.userInfo.user_id) {
@@ -528,34 +496,17 @@ app.$mount();
 				});
 			} else {
 				this.getUserActInfo();
-				if (this.option.sakura_id) {
+				if (this.option.sakura_key) {
 					this.maskShow = true;
-					this.inviteShareSakura = true;
+					this.showAlert = 'inviteShareSakura';
 				}
 			}
 		}
 	},
 	onShareAppMessage: function onShareAppMessage(res) {
-		var _this = this;
-
 		var self = this;
-		console.log(res);
-		self.closeAlert(this.sakuraDetailShow);
+		this.closeAlert(this.sakuraDetailShow);
 		if (res.from == 'button' && res.target.dataset.type == '0') {
-			//任务三 赠送好友一瓣
-			Net.get('Sakura.userGiftSakura', {
-				data: {
-					user_id: this.user_id,
-					sakura_key: this.sakuraDetailKey
-				}
-			}).then(function (res) {
-				if (res.errno == '0') {
-					_this.sakura_id = res.data.sakura_id;
-					console.log('/pages/sakura/sakura?sakura_key=' + _this.sakuraDetailKey + '&user_id=' + _this.user_id + "&sakura_id=" + _this.sakura_id);
-				} else {
-					wx.showModal({ title: '提示', content: res.errmsg });
-				}
-			});
 			return {
 				title: '送你一朵' + this.sakuraDetailName + '，快来和我平分100万现金！',
 				path: '/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey + '&user_id=' + this.user_id + "&sakura_id=" + this.sakura_id,
@@ -578,7 +529,6 @@ app.$mount();
 			};
 		} else {
 			var shareImg = this.shareImg;
-			console.log('/pages/sakura/sakura');
 
 			if (res.from == 'menu') {
 				return {
@@ -662,12 +612,25 @@ app.$mount();
 	},
 
 	methods: {
-		gather: function gather(e) {
-			console.log(e);
-			Net.gatherMsgId({
-				scene_id: 6,
-				scene_val: 'sakura',
-				form_id: e.mp.detail.formId
+		sendToFriendShow: function sendToFriendShow() {
+			this.showAlert = 'sendToFriend';
+			this.getShareSakuraId();
+		},
+		getShareSakuraId: function getShareSakuraId() {
+			var _this = this;
+
+			Net.get('Sakura.userGiftSakura', {
+				data: {
+					user_id: this.user_id,
+					sakura_key: this.sakuraDetailKey
+				}
+			}).then(function (res) {
+				if (res.errno == '0') {
+					_this.sakura_id = res.data.sakura_id;
+					console.log("sakura_id=" + _this.sakura_id);
+				} else {
+					wx.showModal({ title: '提示', content: res.errmsg });
+				}
 			});
 		},
 		showGetSakuraAlert: function showGetSakuraAlert() {
@@ -681,7 +644,6 @@ app.$mount();
 				}
 			}).then(function (res) {
 				if (res.errno == '0') {
-					console.log(_this2.option);
 					_this2.taskList = res.data.day_task;
 					var infoList = res.data.info;
 					_this2.sakura_A_num = infoList.sakura_a;
@@ -712,7 +674,6 @@ app.$mount();
 		checkAuth: function checkAuth() {
 			var _this3 = this;
 
-			console.log(this.option);
 			if (WMP.globalData.userInfo && WMP.globalData.userInfo.user_id) {
 				Net.get('Sakura.userRecvGiftSakura', {
 					data: {
@@ -726,8 +687,7 @@ app.$mount();
 							_this3.inviteUser = res.data.from_user_display_name;
 							_this3.inviteShareSakuraName = res.data.sakura_name;
 							_this3.maskShow = true;
-							_this3.inviteShareSakura = false;
-							_this3.showHaveDone = true;
+							_this3.showAlert = 'showHaveDone';
 						} else {
 							if (_this3.option.user_id == _this3.user_id) {
 								wx.showToast({
@@ -737,8 +697,7 @@ app.$mount();
 								});
 							} else {
 								if (_this3.recv_id != '0') {
-									_this3.showHaveDone = true;
-									_this3.inviteShareSakura = false;
+									_this3.showAlert = 'showHaveDone';
 									_this3.maskShow = true;
 								} else {
 									wx.showToast({
@@ -752,7 +711,7 @@ app.$mount();
 					}
 				});
 			} else {
-				WMP.checkAuthPromise(this).then(function () {
+				WMP.asyncLogin(this).then(function () {
 					_this3.userInfo = WMP.globalData.userInfo;
 					_this3.user_id = _this3.userInfo.user_id;
 					_this3.getUserActInfo();
@@ -763,7 +722,6 @@ app.$mount();
 			var _this4 = this;
 
 			this.maskShow = false;
-			this.inviteShareSakura = false;
 			this.userInfo = WMP.globalData.userInfo;
 			this.user_id = this.userInfo.user_id;
 			console.log(this.option);
@@ -797,7 +755,7 @@ app.$mount();
 					_this4.inviteUser = res.data.gift_sakura.gift_user_name;
 					_this4.inviteShareSakuraName = res.data.gift_sakura.sakura_name;
 				} else if (errno == '2008') {
-					WMP.checkAuthPromise(_this4);
+					WMP.asyncLogin(_this4);
 				} else {
 					wx.showModal({ title: '提示', content: res.errmsg });
 				}
@@ -820,16 +778,8 @@ app.$mount();
 			console.log(this.restDay);
 		},
 		showHaveDone: function showHaveDone() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow = false;
-			this.sakuraAllChangeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.composeShow = false;
-
-			this.showHaveDone = true;
 			this.maskShow = true;
+			this.showAlert = 'showHaveDone';
 		},
 		showSakuraDetail: function showSakuraDetail(key, name, poetry) {
 			console.log('key=' + key);
@@ -847,28 +797,13 @@ app.$mount();
 			} else if (this.sakuraDetailKey == 'sakura_e') {
 				this.sakuraDetailRotate = -72;
 			}
-			this.sakuraAllChangeShow = false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.lotteryResShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
-
 			this.maskShow = true;
-			this.sakuraDetailShow = true;
+			this.showAlert = 'sakuraDetail';
 		},
 		showComposeAni: function showComposeAni() {
 			if (this.is_compose) {
-				this.sakuraDetailShow = false;
-				this.lotteryResShow = false;
-				this.sakuraAllChangeShow = false;
-				this.giftRecShow = false;
-				this.sakuraAllShow = false;
-				this.inviteSakuraAllShow = false;
-				this.showHaveDone = false;
 				this.maskShow = true;
-				this.composeShow = true;
+				this.showAlert = 'conpose';
 				Net.get('Sakura.userComposeSakura', {
 					data: {
 						user_id: this.user_id
@@ -891,41 +826,20 @@ app.$mount();
 
 		//万能瓣兑换弹框
 		showSakuraW: function showSakuraW() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow = false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.sakuraAllChangeShow = true;
+			this.showAlert = 'sakuraAllChange';
 		},
 
 		//获得万能瓣弹框
 		showSakuraAll: function showSakuraAll() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow = false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllChangeShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.sakuraAllShow = true;
+			this.showAlert = 'sakuraAll';
 		},
 
 		//邀请好友得万能樱弹框
 		showinviteSakuraAll: function showinviteSakuraAll() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow = false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllChangeShow = false;
-			this.sakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.inviteSakuraAllShow = true;
+			this.showAlert = 'inviteSakuraAll';
 		},
 		showMoreRule: function showMoreRule() {
 			this.ruleShowMore = !this.ruleShowMore;
@@ -933,15 +847,8 @@ app.$mount();
 		showGiftRec: function showGiftRec() {
 			var _this5 = this;
 
-			this.sakuraDetailShow = false;
-			this.lotteryResShow = false;
-			this.composeShow = false;
-			this.sakuraAllChangeShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.giftRecShow = true;
+			this.showAlert = 'giftRec';
 			Net.get('Sakura.getUserGiftSakuraList', {
 				data: {
 					user_id: this.user_id
@@ -955,45 +862,9 @@ app.$mount();
 				}
 			});
 		},
-		chooseChangeSakuraA: function chooseChangeSakuraA() {
-			this.sakura_b_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_a_choosed = true;
-			this.exchange_sakura_key = 'sakura_a';
-		},
-		chooseChangeSakuraB: function chooseChangeSakuraB() {
-			this.sakura_a_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_b_choosed = true;
-			this.exchange_sakura_key = 'sakura_b';
-		},
-		chooseChangeSakuraC: function chooseChangeSakuraC() {
-			this.sakura_a_choosed = false;
-			this.sakura_b_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_c_choosed = true;
-			this.exchange_sakura_key = 'sakura_c';
-		},
-		chooseChangeSakuraD: function chooseChangeSakuraD() {
-			this.sakura_a_choosed = false;
-			this.sakura_b_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_d_choosed = true;
-			this.exchange_sakura_key = 'sakura_d';
-		},
-		chooseChangeSakuraE: function chooseChangeSakuraE() {
-			this.sakura_a_choosed = false;
-			this.sakura_b_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = true;
-			this.exchange_sakura_key = 'sakura_e';
+		chooseChangeSakura: function chooseChangeSakura(param) {
+			this.sakura_whitch_choosed = param;
+			this.exchange_sakura_key = param;
 		},
 		closeAlert: function closeAlert(param) {
 			param = false;
@@ -1004,20 +875,14 @@ app.$mount();
 		_lotterySakura: function _lotterySakura() {
 			var _this6 = this;
 
+			this.userInfo = WMP.globalData.userInfo;
+			this.user_id = this.userInfo.user_id;
 			Net.post('Sakura.userLotterySakura', {
 				user_id: this.user_id
 			}).then(function (res) {
 				if (res.errno == '0') {
-					_this6.sakuraDetailShow = false;
-					_this6.sakuraAllChangeShow = false;
-					_this6.composeShow = false;
-					_this6.sakuraAllShow = false;
-					_this6.inviteSakuraAllShow = false;
-					_this6.giftRecShow = false;
-					_this6.showHaveDone = false;
 					_this6.maskShow = true;
-					_this6.lotteryResShow = true;
-
+					_this6.showAlert = 'lotteryRes';
 					_this6.lottery_res = res.data;
 				} else {
 					wx.showModal({ title: '提示', content: res.errmsg });
@@ -1028,16 +893,13 @@ app.$mount();
 			var _this7 = this;
 
 			var self = this;
-			WMP.checkAuthPromise(this).then(function () {
-				_this7.userInfo = WMP.globalData.userInfo;
-				_this7.user_id = _this7.userInfo.user_id;
+			WMP.asyncLogin(this).then(function () {
 				_this7._lotterySakura();
 			});
 		},
 		changeSakura: function changeSakura() {
 			var _this8 = this;
 
-			console.log(this.exchange_sakura_key);
 			if (this.exchange_sakura_key) {
 				if (this.sakura_W_num > 0) {
 					Net.get('Sakura.userExchangeSakuraW', {
@@ -1047,19 +909,11 @@ app.$mount();
 						}
 					}).then(function (res) {
 						if (res.errno == '0') {
-							_this8.sakuraDetailShow = false;
-							_this8.composeShow = false;
-							_this8.lotteryResShow = false;
-							_this8.sakuraAllShow = false;
-							_this8.inviteSakuraAllShow = false;
-							_this8.giftRecShow = false;
-							_this8.showHaveDone = false;
 							_this8.maskShow = true;
-							_this8.sakuraAllChangeShow = true;
-							_this8.getUserActInfo();
+							_this8.showAlert = 'sakuraAll';
 						} else {
 							_this8.maskShow = false;
-							_this8.sakuraAllChangeShow = false;
+							_this8.showAlert = '';
 							wx.showModal({ title: '提示', content: res.errmsg });
 						}
 					});
@@ -1118,6 +972,9 @@ app.$mount();
 					url: '/page/index/index'
 				});
 			}
+		},
+		gather: function gather(res) {
+			console.log(res);
 		}
 	}
 
@@ -1125,32 +982,23 @@ app.$mount();
 
 /***/ }),
 
-/***/ 30:
+/***/ 26:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 36:
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
-  }, [_c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '1'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }, [_c('div', {
     staticClass: "w-sakura",
     attrs: {
-      "form-type": "submit",
       "eventid": '0'
     },
     on: {
@@ -1158,9 +1006,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.showSakuraW()
       }
     }
-  }, [_c('div', [_vm._v("\n\t\t\t\t万能樱"), _c('span', [_vm._v(_vm._s(_vm.sakura_W_num))])])])], 1), _vm._v(" "), _c('div', {
+  }, [_c('div', [_vm._v("\n\t\t\t万能樱"), _c('span', [_vm._v(_vm._s(_vm.sakura_W_num))])])]), _vm._v(" "), _c('div', {
     staticClass: "tips"
-  }, [_vm._v("\n\t\t每集齐1朵樱花分1份现金，集的越多分的越多\n\t")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t每集齐1朵樱花分1份现金，集的越多分的越多\n\t\t")]), _vm._v(" "), _c('div', {
     staticClass: "tips-2"
   }, [_vm._v("\n\t\t已集齐"), _c('span', {
     staticClass: "num"
@@ -1176,25 +1024,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "flower-box"
   }, [_c('div', {
     staticClass: "top"
-  }, [_c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '4'
-    },
-    on: {
-      "submit": _vm.gather
-    }
   }, [_c('div', {
     staticClass: "flower-item",
     class: {
       'disflower': _vm.sakura_A_num == '0'
     }
-  }, [_c('span', [_vm._v("八重樱")]), _vm._v(" "), (_vm.sakura_A_num > 0) ? _c('button', {
+  }, [_c('span', [_vm._v("八重樱")]), _vm._v(" "), (_vm.sakura_A_num > 0) ? _c('div', {
     staticClass: "click-box",
     attrs: {
-      "form-type": "submit",
-      "eventid": '2',
-      "eventid": '3'
+      "eventid": '1',
+      "eventid": '2'
     },
     on: {
       "click": function($event) {
@@ -1203,47 +1042,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "num-box"
-  }, [_vm._v(_vm._s(_vm.sakura_A_num))]), _vm._v(" "), _c('div', {
-    staticClass: "dot-box"
-  }, [_c('div', {
-    staticClass: "dot dot-1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-4"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-5"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-6"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-7"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-8"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-9"
-  })])]) : _vm._e()], 1)])], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sakura_A_num))]), _vm._v(" "), _vm._m(0)]) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "center"
-  }, [_c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '7'
-    },
-    on: {
-      "submit": _vm.gather
-    }
   }, [_c('div', {
     staticClass: "flower-item center-left",
     class: {
       'disflower': _vm.sakura_E_num == '0'
     }
-  }, [_c('span', [_vm._v("寒绯樱")]), _vm._v(" "), (_vm.sakura_E_num > 0) ? _c('button', {
+  }, [_c('span', [_vm._v("寒绯樱")]), _vm._v(" "), (_vm.sakura_E_num > 0) ? _c('div', {
     staticClass: "click-box",
     attrs: {
-      "form-type": "submit",
-      "eventid": '5',
-      "eventid": '6'
+      "eventid": '3',
+      "eventid": '4'
     },
     on: {
       "click": function($event) {
@@ -1252,65 +1062,27 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "num-box"
-  }, [_vm._v(_vm._s(_vm.sakura_E_num))]), _vm._v(" "), _c('div', {
-    staticClass: "dot-box"
-  }, [_c('div', {
-    staticClass: "dot dot-1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-4"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-5"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-6"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-7"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-8"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-9"
-  })])]) : _vm._e()], 1)]), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '9'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }, [_vm._v(_vm._s(_vm.sakura_E_num))]), _vm._v(" "), _vm._m(1)]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "mix-btn",
     class: {
       'new-mix-btn': _vm.is_compose
     },
     attrs: {
-      "form-type": "submit",
-      "eventid": '8'
+      "eventid": '5'
     },
     on: {
       "click": _vm.showComposeAni
     }
-  }, [_vm._v("合成")])], 1), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '12'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('div', {
+  }, [_vm._v("合成")]), _vm._v(" "), _c('div', {
     staticClass: "flower-item center-right",
     class: {
       'disflower': _vm.sakura_B_num == '0'
     }
-  }, [_c('span', [_vm._v("吉野樱")]), _vm._v(" "), (_vm.sakura_B_num > 0) ? _c('button', {
+  }, [_c('span', [_vm._v("吉野樱")]), _vm._v(" "), (_vm.sakura_B_num > 0) ? _c('div', {
     staticClass: "click-box",
     attrs: {
-      "form-type": "submit",
-      "eventid": '10',
-      "eventid": '11'
+      "eventid": '6',
+      "eventid": '7'
     },
     on: {
       "click": function($event) {
@@ -1319,47 +1091,18 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "num-box"
-  }, [_vm._v(_vm._s(_vm.sakura_B_num))]), _vm._v(" "), _c('div', {
-    staticClass: "dot-box"
-  }, [_c('div', {
-    staticClass: "dot dot-1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-4"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-5"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-6"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-7"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-8"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-9"
-  })])]) : _vm._e()], 1)])], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sakura_B_num))]), _vm._v(" "), _vm._m(2)]) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "bottom"
-  }, [_c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '15'
-    },
-    on: {
-      "submit": _vm.gather
-    }
   }, [_c('div', {
     staticClass: "flower-item bottom-left",
     class: {
       'disflower': _vm.sakura_D_num == '0'
     }
-  }, [_c('span', [_vm._v("淡墨樱")]), _vm._v(" "), (_vm.sakura_D_num > 0) ? _c('button', {
+  }, [_c('span', [_vm._v("淡墨樱")]), _vm._v(" "), (_vm.sakura_D_num > 0) ? _c('div', {
     staticClass: "click-box",
     attrs: {
-      "form-typt": "submit",
-      "eventid": '13',
-      "eventid": '14'
+      "eventid": '8',
+      "eventid": '9'
     },
     on: {
       "click": function($event) {
@@ -1368,45 +1111,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "num-box"
-  }, [_vm._v(_vm._s(_vm.sakura_D_num))]), _vm._v(" "), _c('div', {
-    staticClass: "dot-box"
-  }, [_c('div', {
-    staticClass: "dot dot-1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-4"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-5"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-6"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-7"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-8"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-9"
-  })])]) : _vm._e()], 1)]), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '18'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('div', {
+  }, [_vm._v(_vm._s(_vm.sakura_D_num))]), _vm._v(" "), _vm._m(3)]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "flower-item bottom-right",
     class: {
       'disflower': _vm.sakura_C_num == '0'
     }
-  }, [_c('span', [_vm._v("大岛樱")]), _vm._v(" "), (_vm.sakura_C_num > 0) ? _c('button', {
+  }, [_c('span', [_vm._v("大岛樱")]), _vm._v(" "), (_vm.sakura_C_num > 0) ? _c('div', {
     staticClass: "click-box",
     attrs: {
-      "form-type": "submit",
-      "eventid": '16',
-      "eventid": '17'
+      "eventid": '10',
+      "eventid": '11'
     },
     on: {
       "click": function($event) {
@@ -1415,61 +1129,25 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "num-box"
-  }, [_vm._v(_vm._s(_vm.sakura_C_num))]), _vm._v(" "), _c('div', {
-    staticClass: "dot-box"
-  }, [_c('div', {
-    staticClass: "dot dot-1"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-2"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-3"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-4"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-5"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-6"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-7"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-8"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "dot dot-9"
-  })])]) : _vm._e()], 1)])], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.sakura_C_num))]), _vm._v(" "), _vm._m(4)]) : _vm._e()])])]), _vm._v(" "), _c('div', {
     staticClass: "rest-count"
-  }, [_vm._v("\n\t\t\t今日剩余次数"), _c('span', [_vm._v(_vm._s(_vm.rest_count || 0))]), _vm._v("/4\n\t\t")]), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '21'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [(_vm.restDay > 0 || _vm.restDay == '-1') ? _c('button', {
+  }, [_vm._v("\n\t\t\t今日剩余次数"), _c('span', [_vm._v(_vm._s(_vm.rest_count || 0))]), _vm._v("/4\n\t\t")]), _vm._v(" "), (_vm.restDay > 0 || _vm.restDay == '-1') ? _c('div', {
     staticClass: "lottery-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '19',
-      "eventid": '20'
+      "eventid": '12',
+      "eventid": '13'
     },
     on: {
       "click": function($event) {
         _vm.lotterySakura()
       }
     }
-  }, [_vm._v("\n\t\t\t\t抽樱花瓣\n\t\t\t")]) : _vm._e()], 1), _vm._v(" "), (_vm.restDay == '0') ? _c('a', {
+  }, [_vm._v("\n\t\t\t抽樱花瓣\n\t\t")]) : _vm._e(), _vm._v(" "), (_vm.restDay == '0') ? _c('a', {
     staticClass: "lottery-btn",
     attrs: {
-      "href": "/pages/tocash/tocash",
-      "eventid": '22',
-      "eventid": '23'
-    },
-    on: {
-      "click": function($event) {
-        _vm.lotterySakura()
-      }
+      "href": "/pages/tocash/tocash"
     }
-  }, [_vm._v("\n\t\t\t兑换现金\n\t\t")]) : _vm._e()], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n\t\t\t兑换现金\n\t\t")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "task-box"
   }, [_c('div', {
     staticClass: "task-title"
@@ -1481,42 +1159,24 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "task-item-evd"
     }, [_vm._v("每日")]), _vm._v(" "), _c('div', {
       staticClass: "task-item-name"
-    }, [_vm._v(_vm._s(item.name))]), _vm._v(" "), _vm._m(0, true), _vm._v(" "), _c('form', {
-      attrs: {
-        "report-submit": _vm.form_id,
-        "eventid": '26-' + index
-      },
-      on: {
-        "submit": _vm.gather
-      }
-    }, [(item.status == '0') ? _c('button', {
+    }, [_vm._v(_vm._s(item.name))]), _vm._v(" "), _vm._m(5, true), _vm._v(" "), (item.status == '0') ? _c('div', {
       staticClass: "task-item-btn receive",
       attrs: {
-        "form-type": "submit",
-        "eventid": '24-' + index,
-        "eventid": '25-' + index
+        "eventid": '14-' + index,
+        "eventid": '15-' + index
       },
       on: {
         "click": function($event) {
           _vm.getTask(item.task_id)
         }
       }
-    }, [_vm._v("\n\t\t\t\t\t领取\n\t\t\t\t")]) : _vm._e()], 1), _vm._v(" "), (item.status == '1') ? _c('div', {
+    }, [_vm._v("\n\t\t\t\t领取\n\t\t\t")]) : _vm._e(), _vm._v(" "), (item.status == '1') ? _c('div', {
       staticClass: "task-item-btn done"
-    }) : _vm._e(), _vm._v(" "), _c('form', {
-      attrs: {
-        "report-submit": _vm.form_id,
-        "eventid": '29-' + index
-      },
-      on: {
-        "submit": _vm.gather
-      }
-    }, [(item.status == '-1') ? _c('button', {
+    }) : _vm._e(), _vm._v(" "), (item.status == '-1') ? _c('div', {
       staticClass: "task-item-btn",
       attrs: {
-        "form-type": "submit",
-        "eventid": '27-' + index,
-        "eventid": '28-' + index
+        "eventid": '16-' + index,
+        "eventid": '17-' + index
       },
       on: {
         "click": function($event) {
@@ -1528,12 +1188,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "open-type": "share",
         "data-type": 1
       }
-    }, [_vm._v("\n\t\t\t\t\t\t去完成\n\t\t\t\t\t")]) : _vm._e(), _vm._v(" "), (index != 2) ? _c('div', [_vm._v("\n\t\t\t\t\t\t去完成\n\t\t\t\t\t")]) : _vm._e()], 1) : _vm._e()], 1)], 1)
+    }, [_vm._v("\n\t\t\t\t\t去完成\n\t\t\t\t")]) : _vm._e(), _vm._v(" "), (index != 2) ? _c('div', [_vm._v("\n\t\t\t\t\t去完成\n\t\t\t\t")]) : _vm._e()], 1) : _vm._e()])
   }), _vm._v(" "), _c('div', {
     staticClass: "task-item"
   }, [_c('div', {
     staticClass: "suc-box"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "suc-box-bot"
   }, [_vm._v("\n\t\t\t\t\t已注册"), _c('span', [_vm._v(_vm._s(_vm.inviteCount ? _vm.inviteCount : 0))]), _vm._v("人\n\t\t\t\t")])]), _vm._v(" "), _c('div', {
     staticClass: "task-item-img"
@@ -1544,29 +1204,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "src": "https://s.wandougongzhu.cn/s/0e/_16ec47.png",
       "alt": ""
     }
-  })]), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '31'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  })]), _vm._v(" "), _c('div', {
     staticClass: "to-invite",
     class: {
       'task-item-btn': true
     },
     attrs: {
-      "form-type": "submit",
-      "eventid": '30'
+      "eventid": '18'
     },
     on: {
       "click": function($event) {
         _vm.showinviteSakuraAll()
       }
     }
-  }, [_vm._v("去邀请")])], 1)], 1)], 2), _vm._v(" "), _c('div', {
+  }, [_vm._v("去邀请")])])], 2), _vm._v(" "), _c('div', {
     staticClass: "rule-box"
   }, [_c('div', {
     staticClass: "rule-title"
@@ -1592,7 +1243,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       'shouqi': _vm.ruleShowMore
     },
     attrs: {
-      "eventid": '32'
+      "eventid": '19'
     },
     domProps: {
       "textContent": _vm._s(_vm.ruleShowMore ? '收起' : '展开更多')
@@ -1614,30 +1265,21 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "faq-q"
   }, [_vm._v("4.什么是万能樱")]), _vm._v(" "), _c('p', [_vm._v("万能樱是通过完成特殊任务收集到的，可以兑换任意一瓣樱花。")]), _vm._v(" "), _c('p', {
     staticClass: "faq-q"
-  }, [_vm._v("5.邀请好友注册如何获得万能樱")]), _vm._v(" "), _c('p', [_vm._v("好友在您的分享页完成注册并验证手机号，您将获得万能樱1个。")])], 1) : _vm._e()]), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '34'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }, [_vm._v("5.邀请好友注册如何获得万能樱")]), _vm._v(" "), _c('p', [_vm._v("好友在您的分享页完成注册并验证手机号，您将获得万能樱1个。")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "rec-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '33'
+      "eventid": '20'
     },
     on: {
       "click": function($event) {
         _vm.showGiftRec()
       }
     }
-  }, [_vm._v("\n\t\t\t\t赠领记录\n\t\t\t")])], 1)], 1), _vm._v(" "), (_vm.maskShow) ? _c('div', {
+  }, [_vm._v("\n\t\t\t赠领记录\n\t\t")])]), _vm._v(" "), (_vm.maskShow) ? _c('div', {
     attrs: {
       "id": "mask"
     }
-  }, [(_vm.composeShow) ? _c('div', {
+  }, [(_vm.showAlert == 'compose') ? _c('div', {
     staticClass: "compose-box"
   }, [_c('div', {
     staticClass: "compose-tips"
@@ -1651,41 +1293,30 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "shink"
   }), _vm._v(" "), _c('div', {
     staticClass: "shink2"
-  }), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '36',
-      "eventid": '38',
-      "eventid": '90'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "compose-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '35',
-      "eventid": '37',
-      "eventid": '89'
+      "eventid": '21',
+      "eventid": '22',
+      "eventid": '65'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.composeShow)
+        _vm.closeAlert()
       }
     }
-  }, [_vm._v("确定")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.sakuraDetailShow) ? _c('div', {
+  }, [_vm._v("确定")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'sakuraDetail') ? _c('div', {
     staticClass: "to-alert-box"
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '39',
-      "eventid": '41',
-      "eventid": '91'
+      "eventid": '23',
+      "eventid": '25',
+      "eventid": '66'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.sakuraDetailShow)
+        _vm.closeAlert()
       }
     }
   }), _vm._v(" "), _c('div', {
@@ -1704,35 +1335,30 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "mysakura-tips"
-  }, [_c('p', [_vm._v("多余的樱花瓣可以赠送给好友哦")]), _vm._v(" "), _c('p', [_vm._v("每天首次赠送可获得1次抽樱花瓣的机会")])], 1), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '40',
-      "eventid": '42',
-      "eventid": '92'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }, [_c('p', [_vm._v("多余的樱花瓣可以赠送给好友哦")]), _vm._v(" "), _c('p', [_vm._v("每天首次赠送可获得1次抽樱花瓣的机会")])], 1), _vm._v(" "), _c('div', {
     staticClass: "mysakura-btn",
     attrs: {
-      "open-type": "share",
-      "data-type": 0,
-      "form-type": "submit"
+      "eventid": '24',
+      "eventid": '26',
+      "eventid": '67'
+    },
+    on: {
+      "click": function($event) {
+        _vm.sendToFriendShow()
+      }
     }
-  }, [_vm._v("\n\t\t\t\t\t送给好友\n\t\t\t\t")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.lotteryResShow) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t送给好友\n\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'lotteryRes') ? _c('div', {
     staticClass: "get-alert-box"
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '43',
-      "eventid": '46',
-      "eventid": '93'
+      "eventid": '27',
+      "eventid": '29',
+      "eventid": '68'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.lotteryResShow)
+        _vm.closeAlert()
       }
     }
   }), _vm._v(" "), _c('div', {
@@ -1743,113 +1369,100 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "name"
   }, [_vm._v(_vm._s(_vm.lottery_res.sakura_name))])]), _vm._v(" "), _c('div', {
     staticClass: "getsakura"
-  }), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '45',
-      "eventid": '48',
-      "eventid": '95'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "mysakura-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '44',
-      "eventid": '47',
-      "eventid": '94'
+      "eventid": '28',
+      "eventid": '30',
+      "eventid": '69'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.lotteryResShow)
+        _vm.closeAlert()
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t确定\n\t\t\t\t")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.sakuraAllShow) ? _c('div', {
-    staticClass: "get-alert-box"
-  }, [_vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '49',
-      "eventid": '50',
-      "eventid": '96'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
-    staticClass: "mysakura-btn",
-    attrs: {
-      "form-type": "submit"
-    }
-  }, [_vm._v("\n\t\t\t\t\t确定\n\t\t\t\t")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.inviteSakuraAllShow) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t确定\n\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'sakuraAll') ? _c('div', {
     staticClass: "get-alert-box"
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '51',
-      "eventid": '53',
-      "eventid": '97'
+      "eventid": '31',
+      "eventid": '33',
+      "eventid": '70'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.inviteSakuraAllShow)
+        _vm.closeAlert()
       }
     }
-  }), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('img', {
+  }), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('div', {
+    staticClass: "mysakura-btn",
+    attrs: {
+      "eventid": '32',
+      "eventid": '34',
+      "eventid": '71'
+    },
+    on: {
+      "click": function($event) {
+        _vm.closeAlert()
+      }
+    }
+  }, [_vm._v("\n\t\t\t\t确定\n\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'inviteSakuraAll') ? _c('div', {
+    staticClass: "get-alert-box"
+  }, [_c('div', {
+    staticClass: "colse",
+    attrs: {
+      "eventid": '35',
+      "eventid": '36',
+      "eventid": '72'
+    },
+    on: {
+      "click": function($event) {
+        _vm.closeAlert()
+      }
+    }
+  }), _vm._v(" "), _vm._m(9), _vm._v(" "), _c('img', {
     staticClass: "getsakura invite-sakura",
     attrs: {
       "src": "https://s2.wandougongzhu.cn/s/9f/wan_ebbf7a.png"
     }
-  }), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '52',
-      "eventid": '54',
-      "eventid": '98'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }), _vm._v(" "), _c('button', {
     staticClass: "invite-btn",
     attrs: {
-      "form-type": "submit",
       "open-type": "share",
       "data-type": 2
     }
-  }, [_vm._v("\n\t\t\t\t\t去邀请\n\t\t\t\t")])], 1), _vm._v(" "), _c('div', [_vm._v("花瓣在好友验证手机号后发放")])], 1) : _vm._e(), _vm._v(" "), (_vm.sakuraAllChangeShow) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t去邀请\n\t\t\t")]), _vm._v(" "), _c('div', [_vm._v("花瓣在好友验证手机号后发放")])], 1) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'sakuraAllChange') ? _c('div', {
     staticClass: "get-alert-box"
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '55',
-      "eventid": '63',
-      "eventid": '99'
+      "eventid": '37',
+      "eventid": '44',
+      "eventid": '73'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.sakuraAllChangeShow)
+        _vm.closeAlert()
       }
     }
-  }), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "flower-box universal-flower"
   }, [_c('div', {
     staticClass: "top"
   }, [_c('div', {
     staticClass: "flower-item",
     class: {
-      'choosed': _vm.sakura_a_choosed
+      'choosed': _vm.sakura_whitch_choosed == 'sakura_a'
     },
     attrs: {
-      "eventid": '56',
-      "eventid": '64',
-      "eventid": '100'
+      "eventid": '38',
+      "eventid": '45',
+      "eventid": '74'
     },
     on: {
       "click": function($event) {
-        _vm.chooseChangeSakuraA(_vm.sakura_a_choosed)
+        _vm.chooseChangeSakura('sakura_a')
       }
     }
   }, [_c('span', [_vm._v("八重樱")])])]), _vm._v(" "), _c('div', {
@@ -1857,31 +1470,31 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "flower-item center-left",
     class: {
-      'choosed': _vm.sakura_e_choosed
+      'choosed': _vm.sakura_whitch_choosed == 'sakura_e'
     },
     attrs: {
-      "eventid": '57',
-      "eventid": '65',
-      "eventid": '101'
+      "eventid": '39',
+      "eventid": '46',
+      "eventid": '75'
     },
     on: {
       "click": function($event) {
-        _vm.chooseChangeSakuraE(_vm.sakura_e_choosed)
+        _vm.chooseChangeSakura('sakura_e')
       }
     }
   }, [_c('span', [_vm._v("寒绯樱")])]), _vm._v(" "), _c('div', {
     staticClass: "flower-item center-right",
     class: {
-      'choosed': _vm.sakura_b_choosed
+      'choosed': _vm.sakura_whitch_choosed == 'sakura_b'
     },
     attrs: {
-      "eventid": '58',
-      "eventid": '66',
-      "eventid": '102'
+      "eventid": '40',
+      "eventid": '47',
+      "eventid": '76'
     },
     on: {
       "click": function($event) {
-        _vm.chooseChangeSakuraB(_vm.sakura_b_choosed)
+        _vm.chooseChangeSakura('sakura_b')
       }
     }
   }, [_c('span', [_vm._v("吉野樱")])])]), _vm._v(" "), _c('div', {
@@ -1889,68 +1502,57 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "flower-item bottom-left",
     class: {
-      'choosed': _vm.sakura_d_choosed
+      'choosed': _vm.sakura_whitch_choosed == 'sakura_d'
     },
     attrs: {
-      "eventid": '59',
-      "eventid": '67',
-      "eventid": '103'
+      "eventid": '41',
+      "eventid": '48',
+      "eventid": '77'
     },
     on: {
       "click": function($event) {
-        _vm.chooseChangeSakuraD(_vm.sakura_d_choosed)
+        _vm.chooseChangeSakura('sakura_d')
       }
     }
   }, [_c('span', [_vm._v("淡墨樱")])]), _vm._v(" "), _c('div', {
     staticClass: "flower-item bottom-right",
     class: {
-      'choosed': _vm.sakura_c_choosed
+      'choosed': _vm.sakura_whitch_choosed == 'sakura_c'
     },
     attrs: {
-      "eventid": '60',
-      "eventid": '68',
-      "eventid": '104'
+      "eventid": '42',
+      "eventid": '49',
+      "eventid": '78'
     },
     on: {
       "click": function($event) {
-        _vm.chooseChangeSakuraC(_vm.sakura_c_choosed)
+        _vm.chooseChangeSakura('sakura_c')
       }
     }
-  }, [_c('span', [_vm._v("大岛樱")])])])]), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '62',
-      "eventid": '70',
-      "eventid": '106'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }, [_c('span', [_vm._v("大岛樱")])])])]), _vm._v(" "), _c('div', {
     staticClass: "mysakura-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '61',
-      "eventid": '69',
-      "eventid": '105'
+      "eventid": '43',
+      "eventid": '50',
+      "eventid": '79'
     },
     on: {
       "click": function($event) {
         _vm.changeSakura()
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t兑换\n\t\t\t\t")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.giftRecShow) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t兑换\n\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'giftRec') ? _c('div', {
     staticClass: "get-alert-box"
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '71',
-      "eventid": '74',
-      "eventid": '107'
+      "eventid": '51',
+      "eventid": '53',
+      "eventid": '80'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.giftRecShow)
+        _vm.closeAlert()
       }
     }
   }), _vm._v(" "), _c('div', {
@@ -1971,41 +1573,30 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(item.mtime))])]) : _vm._e()
   }), _vm._v(" "), (_vm.giftRecList.length == 0) ? _c('div', {
     staticClass: "gift-res-item-null"
-  }, [_vm._v("\n\t\t\t\t\t暂时没有赠领记录哦～快去分享给好友吧\n\t\t\t\t")]) : _vm._e()], 2), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '73',
-      "eventid": '76',
-      "eventid": '109'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }, [_vm._v("\n\t\t\t\t\t暂时没有赠领记录哦～快去分享给好友吧\n\t\t\t\t")]) : _vm._e()], 2), _vm._v(" "), _c('div', {
     staticClass: "mysakura-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '72',
-      "eventid": '75',
-      "eventid": '108'
+      "eventid": '52',
+      "eventid": '54',
+      "eventid": '81'
     },
     on: {
       "click": function($event) {
         _vm.closeAlert(_vm.giftRecShow)
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t确定\n\t\t\t\t")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.inviteShareSakura) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t确定\n\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'inviteShareSakura') ? _c('div', {
     staticClass: "get-alert-box"
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '77',
-      "eventid": '80',
-      "eventid": '110'
+      "eventid": '55',
+      "eventid": '57',
+      "eventid": '82'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.inviteShareSakura)
+        _vm.closeAlert()
       }
     }
   }), _vm._v(" "), _c('div', {
@@ -2016,69 +1607,177 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "name"
   }, [_vm._v(_vm._s(_vm.inviteShareSakuraName))])]), _vm._v(" "), _c('div', {
     staticClass: "getsakura"
-  }), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '79',
-      "eventid": '82',
-      "eventid": '112'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "mysakura-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '78',
-      "eventid": '81',
-      "eventid": '111'
+      "eventid": '56',
+      "eventid": '58',
+      "eventid": '83'
     },
     on: {
       "click": function($event) {
         _vm.checkAuth()
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t确定\n\t\t\t\t")])], 1)], 1) : _vm._e(), _vm._v(" "), (_vm.showHaveDone) ? _c('div', {
+  }, [_vm._v("\n\t\t\t\t确定\n\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'showHaveDone') ? _c('div', {
     staticClass: "get-alert-box suc-alert-box"
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '83',
-      "eventid": '86',
-      "eventid": '113'
+      "eventid": '59',
+      "eventid": '61',
+      "eventid": '84'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.showHaveDone)
+        _vm.closeAlert()
       }
     }
-  }), _vm._v(" "), _vm._m(6), _vm._v(" "), _c('form', {
-    attrs: {
-      "report-submit": _vm.form_id,
-      "eventid": '85',
-      "eventid": '88',
-      "eventid": '115'
-    },
-    on: {
-      "submit": _vm.gather
-    }
-  }, [_c('button', {
+  }), _vm._v(" "), _vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "mysakura-btn",
     attrs: {
-      "form-type": "submit",
-      "eventid": '84',
-      "eventid": '87',
-      "eventid": '114'
+      "eventid": '60',
+      "eventid": '62',
+      "eventid": '85'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.showHaveDone)
+        _vm.closeAlert()
       }
     }
-  }, [_vm._v("\n\t\t\t\t\t确定\n\t\t\t\t")])], 1)], 1) : _vm._e()]) : _vm._e()], 1)
+  }, [_vm._v("\n\t\t\t\t确定\n\t\t\t")])]) : _vm._e(), _vm._v(" "), (_vm.showAlert == 'sendToFriend') ? _c('div', {
+    staticClass: "get-alert-box suc-alert-box"
+  }, [_c('div', {
+    staticClass: "colse",
+    attrs: {
+      "eventid": '63',
+      "eventid": '64',
+      "eventid": '86'
+    },
+    on: {
+      "click": function($event) {
+        _vm.closeAlert()
+      }
+    }
+  }), _vm._v(" "), _vm._m(12), _vm._v(" "), _c('button', {
+    staticClass: "mysakura-btn",
+    attrs: {
+      "open-type": "share",
+      "data-type": 0
+    }
+  }, [_vm._v("\n\t\t\t\t告诉TA\n\t\t\t")])], 1) : _vm._e()]) : _vm._e()])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dot-box"
+  }, [_c('div', {
+    staticClass: "dot dot-1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-5"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-6"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-7"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-8"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-9"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dot-box"
+  }, [_c('div', {
+    staticClass: "dot dot-1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-5"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-6"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-7"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-8"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-9"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dot-box"
+  }, [_c('div', {
+    staticClass: "dot dot-1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-5"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-6"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-7"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-8"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-9"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dot-box"
+  }, [_c('div', {
+    staticClass: "dot dot-1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-5"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-6"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-7"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-8"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-9"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dot-box"
+  }, [_c('div', {
+    staticClass: "dot dot-1"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-2"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-4"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-5"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-6"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-7"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-8"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dot dot-9"
+  })])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "task-item-img"
   }, [_c('img', {
@@ -2146,7 +1845,13 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "mysakura-text"
   }, [_c('div', {
     staticClass: "name"
-  }, [_vm._v("手慢了，花瓣已被别人领取")])])
+  }, [_vm._v("手慢了，花瓣已被别人领取了")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mysakura-text"
+  }, [_c('div', {
+    staticClass: "name"
+  }, [_vm._v("送花成功！快去告诉好友吧～")])])
 }]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
@@ -2154,7 +1859,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-96ee5a8c", esExports)
+     require("vue-hot-reload-api").rerender("data-v-2da408fc", esExports)
   }
 }
 
@@ -2165,11 +1870,11 @@ if (false) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_96ee5a8c_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_2da408fc_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(32);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(30)
+  __webpack_require__(26)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -2179,12 +1884,12 @@ var normalizeComponent = __webpack_require__(1)
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-96ee5a8c"
+var __vue_scopeId__ = "data-v-2da408fc"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_96ee5a8c_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_2da408fc_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -2200,9 +1905,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-96ee5a8c", Component.options)
+    hotAPI.createRecord("data-v-2da408fc", Component.options)
   } else {
-    hotAPI.reload("data-v-96ee5a8c", Component.options)
+    hotAPI.reload("data-v-2da408fc", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

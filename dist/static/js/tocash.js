@@ -1,4 +1,5 @@
 import Net from '../../util/net2';
+import Auth from '../../util/auth';
 let WMP = getApp();
 global.webpackJsonp([4],{
 
@@ -124,9 +125,13 @@ app.$mount();
 	},
 
 	methods: {
-		bindViewTap: function bindViewTap() {
-			var url = '../logs/logs';
-			wx.navigateTo({ url: url });
+		toScore: function toScore() {
+			this.maskShow = true;
+		},
+		toIndex: function toIndex() {
+			wx.switchTab({
+				url: '/page/index/index'
+			});
 		},
 		getUserActInfo: function getUserActInfo() {
 			var _this2 = this;
@@ -167,8 +172,6 @@ app.$mount();
 				_this4.sucResShow = true;
 			});
 		},
-
-		// userExchange
 		closeAlert: function closeAlert() {
 			this.maskShow = false;
 		}
@@ -177,14 +180,14 @@ app.$mount();
 
 /***/ }),
 
-/***/ 25:
+/***/ 24:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 32:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -230,7 +233,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("\n\t\t\t\t价值"), _c('span', [_vm._v(_vm._s(_vm.scoreToCash))]), _vm._v("元 (" + _vm._s(_vm.toScoreNum) + ")积分\n\t\t\t\t"), _c('div', {
     staticClass: "mini-tip"
   }, [_vm._v("下单可直接抵现" + _vm._s(_vm.scoreToCash) + "元")])]), _vm._v(" "), _c('div', {
-    staticClass: "to-score-btn"
+    staticClass: "to-score-btn",
+    attrs: {
+      "eventid": '1'
+    },
+    on: {
+      "click": function($event) {
+        _vm.toScore()
+      }
+    }
   }, [_vm._v("\n\t\t\t\t兑换积分\n\t\t\t")])])]), _vm._v(" "), (_vm.maskShow) ? _c('div', {
     attrs: {
       "id": "mask"
@@ -240,34 +251,34 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', {
     staticClass: "colse",
     attrs: {
-      "eventid": '1',
-      "eventid": '4'
-    },
-    on: {
-      "click": function($event) {
-        _vm.closeAlert(_vm.maskShow)
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mysakura-tips"
-  }, [_c('p', [_vm._v("即将为您兑换豌豆公主"), _c('span'), _vm._v("积分，")]), _vm._v(" "), _c('p', [_vm._v("可抵现"), _c('span'), _vm._v("元，下单时可抵现。")])], 1), _vm._v(" "), _c('div', {
-    staticClass: "btn-box"
-  }, [_c('div', {
-    staticClass: "mysakura-btn dis-btn",
-    attrs: {
       "eventid": '2',
       "eventid": '5'
     },
     on: {
       "click": function($event) {
-        _vm.closeAlert(_vm.maskShow)
+        _vm.closeAlert()
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "mysakura-tips"
+  }, [_c('p', [_vm._v("即将为您兑换豌豆公主"), _c('span', [_vm._v(_vm._s(_vm.toScoreNum))]), _vm._v("积分，")]), _vm._v(" "), _c('p', [_vm._v("可抵现"), _c('span', [_vm._v(_vm._s(_vm.toScoreNum / 50))]), _vm._v("元，下单时可抵现。")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "btn-box"
+  }, [_c('div', {
+    staticClass: "mysakura-btn dis-btn",
+    attrs: {
+      "eventid": '3',
+      "eventid": '6'
+    },
+    on: {
+      "click": function($event) {
+        _vm.closeAlert()
       }
     }
   }, [_vm._v("\n\t\t\t\t\t取消\n\t\t\t\t")]), _vm._v(" "), _c('div', {
     staticClass: "mysakura-btn",
     attrs: {
-      "eventid": '3',
-      "eventid": '6'
+      "eventid": '4',
+      "eventid": '7'
     },
     on: {
       "click": function($event) {
@@ -298,10 +309,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   })]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "suc-banner"
-  }), _vm._v(" "), _c('a', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "suc-btn",
     attrs: {
-      "href": "/page/index/index"
+      "eventid": '8',
+      "eventid": '9'
+    },
+    on: {
+      "click": function($event) {
+        _vm.toIndex()
+      }
     }
   }, [_vm._v("去逛逛")])]) : _vm._e()])
 }
@@ -318,7 +335,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2e3b8c7e", esExports)
+     require("vue-hot-reload-api").rerender("data-v-1d876289", esExports)
   }
 }
 
@@ -329,11 +346,11 @@ if (false) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_2e3b8c7e_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_1d876289_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(31);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(25)
+  __webpack_require__(24)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -343,12 +360,12 @@ var normalizeComponent = __webpack_require__(1)
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-2e3b8c7e"
+var __vue_scopeId__ = "data-v-1d876289"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_2e3b8c7e_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_1d876289_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -364,9 +381,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2e3b8c7e", Component.options)
+    hotAPI.createRecord("data-v-1d876289", Component.options)
   } else {
-    hotAPI.reload("data-v-2e3b8c7e", Component.options)
+    hotAPI.reload("data-v-1d876289", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

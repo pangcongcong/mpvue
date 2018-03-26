@@ -120,6 +120,7 @@
 			<a href="/pages/tocash/tocash" class="lottery-btn" v-if="restDay == '0' || restDay == '-1'">
 				兑换现金
 			</a>
+			
 			<!-- <div class="lottery-btn" v-if="restDay == '-1'">
 				活动已结束
 			</div> -->
@@ -1312,6 +1313,7 @@ body {
 	background: rgba(0,0,0,.7);
 }
 .container {
+	font-weight: bold;
 	width: 100%;
 	height: 100%;
 	font-family: "SakuraKai";
@@ -1321,7 +1323,6 @@ body {
 	background: url('https://s5.wandougongzhu.cn/s/83/_24bedc.jpg') no-repeat;
 	background-size: 100% auto;
 	background-color: #f3f2f1;
-	font-weight: bold;
 }
 
 .tips {

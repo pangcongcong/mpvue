@@ -1,1 +1,2 @@
-<import src="../../components/sakura$798ace45" /><template is="sakura$798ace45" data="{{ ...$root['0'], $root }}"/>
+<import src="../../components/sakura$7c6fbc71" /><template is="sakura$7c6fbc71" data="{{ ...$root['0'], $root }}"/>
+<include src="/page/user/index"/>
