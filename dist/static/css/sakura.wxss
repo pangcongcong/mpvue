@@ -1,7 +1,4 @@
 
-._button.data-v-2da408fc::after {
-  display: none;
-}
 @font-face {
   font-family: "SakuraFont";
   src: url("https://s5.wandougongzhu.cn/s/72/fonts_80bdfb.eot");
@@ -372,6 +369,7 @@ page.data-v-2da408fc {
   margin: 0 30rpx;
 }
 .rec-btn.data-v-2da408fc {
+  font-size: 36rpx;
   width: 234rpx;
   height: 70rpx;
   line-height: 70rpx;
@@ -400,6 +398,7 @@ page.data-v-2da408fc {
   background: url('https://s5.wandougongzhu.cn/s/83/_24bedc.jpg') no-repeat;
   background-size: 100% auto;
   background-color: #f3f2f1;
+  font-weight: bold;
 }
 .tips.data-v-2da408fc {
   margin-top: 180rpx;
@@ -691,6 +690,7 @@ page.data-v-2da408fc {
   margin-bottom: 20rpx;
 }
 .lottery-btn.data-v-2da408fc {
+  font-size: 36rpx;
   display: block;
   width: 280rpx;
   height: 70rpx;

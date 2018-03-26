@@ -18,7 +18,7 @@ global.webpackJsonp([6],{
 
 /***/ }),
 
-/***/ 25:
+/***/ 27:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -33,7 +33,7 @@ global.webpackJsonp([6],{
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(25)
+  __webpack_require__(27)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -63,9 +63,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-24a27238", Component.options)
+    hotAPI.createRecord("data-v-4fd132a8", Component.options)
   } else {
-    hotAPI.reload("data-v-24a27238", Component.options)
+    hotAPI.reload("data-v-4fd132a8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

@@ -8,7 +8,7 @@
       </view>
     </view>
     <view class="_div data-v-2da408fc tips">
-      |{{option.sakura_id}}|{{option.sakura_key}}|{{option.user_id}}
+      每集齐1朵樱花分1份现金，集的越多分的越多
     </view>
     <view class="_div data-v-2da408fc tips-2">
       已集齐
@@ -125,12 +125,12 @@
         今日剩余次数
         <label class="_span data-v-2da408fc">{{rest_count || 0}}</label>/4
       </view>
-      <view class="_div data-v-2da408fc lottery-btn" wx:if="{{restDay > 0 || restDay == '-1'}}"
+      <view class="_div data-v-2da408fc lottery-btn" wx:if="{{restDay > 0}}"
         bindtap="handleProxy" data-eventid="{{'13'}}" data-comkey="{{$k}}">
         抽樱花瓣
       </view>
       <navigator url="/pages/tocash/tocash" class="_a data-v-2da408fc lottery-btn"
-        wx:if="{{restDay == '0' }}" bindtap="handleProxy" data-eventid="{{'15'}}" data-comkey="{{$k}}">
+        wx:if="{{restDay == '0' || restDay == '-1'}}">
         兑换现金
       </navigator>
     </view>
@@ -146,12 +146,12 @@
           <image src="https://s3.wandougongzhu.cn/s/bc/_157403.png" alt class="_img data-v-2da408fc"></image>
         </view>
         <view wx:if="{{item.status == '0'}}" class="_div data-v-2da408fc task-item-btn receive"
-          bindtap="handleProxy" data-eventid="{{'17-'+index}}" data-comkey="{{$k}}">
+          bindtap="handleProxy" data-eventid="{{'15-'+index}}" data-comkey="{{$k}}">
           领取
         </view>
         <view wx:if="{{item.status == '1'}}" class="_div data-v-2da408fc task-item-btn done"></view>
         <view wx:if="{{item.status == '-1'}}" class="_div data-v-2da408fc task-item-btn"
-          bindtap="handleProxy" data-eventid="{{'19-'+index}}" data-comkey="{{$k}}">
+          bindtap="handleProxy" data-eventid="{{'17-'+index}}" data-comkey="{{$k}}">
           <button wx:if="{{index == 2}}" open-type="share" data-type="{{1}}" class="_button data-v-2da408fc">
             去完成
           </button>
@@ -168,7 +168,7 @@
           </view>
           <view class="_div data-v-2da408fc suc-box-bot">
             已注册
-            <label class="_span data-v-2da408fc">{{inviteCount ? inviteCount : 0 }}</label>人
+            <label class="_span data-v-2da408fc">{{inviteCount}}</label>人
           </view>
         </view>
         <view class="_div data-v-2da408fc task-item-img">
@@ -177,7 +177,7 @@
             alt class="_img data-v-2da408fc"></image>
         </view>
         <view class="_div data-v-2da408fc to-invite {{(true)? 'task-item-btn' : ' '}}"
-          bindtap="handleProxy" data-eventid="{{'20'}}" data-comkey="{{$k}}">去邀请</view>
+          bindtap="handleProxy" data-eventid="{{'18'}}" data-comkey="{{$k}}">去邀请</view>
       </view>
     </view>
     <view class="_div data-v-2da408fc rule-box">
@@ -197,7 +197,7 @@
         <view class="_p data-v-2da408fc">5.分现金将在4月11日早10:00开启，于4月13日24:00结束，结束后樱花将无法兑换现金，请务必在活动前完成兑换。</view>
       </view>
       <view class="_div data-v-2da408fc rule-show-more {{(ruleShowMore)? 'shouqi' : ' '}}"
-        bindtap="handleProxy" data-eventid="{{'21'}}" data-comkey="{{$k}}">{{ruleShowMore ? '收起' :'展开更多'}}</view>
+        bindtap="handleProxy" data-eventid="{{'19'}}" data-comkey="{{$k}}">{{ruleShowMore ? '收起' :'展开更多'}}</view>
       <view wx:if="{{ruleShowMore}}" class="_div data-v-2da408fc">
         <view class="_p data-v-2da408fc faq-title">FAQ</view>
         <view class="_p data-v-2da408fc faq-q">1.我要如何赠送好友樱花瓣</view>
@@ -212,13 +212,13 @@
         <view class="_p data-v-2da408fc">好友在您的分享页完成注册并验证手机号，您将获得万能樱1个。</view>
       </view>
     </view>
-    <view class="_div data-v-2da408fc rec-btn" bindtap="handleProxy" data-eventid="{{'22'}}"
+    <view class="_div data-v-2da408fc rec-btn" bindtap="handleProxy" data-eventid="{{'20'}}"
       data-comkey="{{$k}}">
       赠领记录
     </view>
   </view>
   <view id="mask" wx:if="{{maskShow}}" class="_div data-v-2da408fc">
-    <view class="_div data-v-2da408fc compose-box" wx:if="{{composeShow}}">
+    <view class="_div data-v-2da408fc compose-box" wx:if="{{showAlert == 'compose'}}">
       <view class="_div data-v-2da408fc compose-tips">
         恭喜获得一朵樱花
       </view>
@@ -228,10 +228,10 @@
       <view class="_div data-v-2da408fc shink"></view>
       <view class="_div data-v-2da408fc shink2"></view>
       <view class="_div data-v-2da408fc compose-btn" bindtap="handleProxy"
-        data-eventid="{{'59'}}" data-comkey="{{$k}}">确定</view>
+        data-eventid="{{'65'}}" data-comkey="{{$k}}">确定</view>
     </view>
-    <view class="_div data-v-2da408fc to-alert-box" wx:if="{{sakuraDetailShow}}">
-      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'60'}}"
+    <view class="_div data-v-2da408fc to-alert-box" wx:if="{{showAlert == 'sakuraDetail'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'66'}}"
         data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc sakura-text">
         <view class="_div data-v-2da408fc name">{{sakuraDetailName}}</view>
@@ -243,12 +243,13 @@
         <view class="_p data-v-2da408fc">多余的樱花瓣可以赠送给好友哦</view>
         <view class="_p data-v-2da408fc">每天首次赠送可获得1次抽樱花瓣的机会</view>
       </view>
-      <button open-type="share" data-type="{{0}}" class="_button data-v-2da408fc mysakura-btn">
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'67'}}"
+        data-comkey="{{$k}}">
         送给好友
-      </button>
+      </view>
     </view>
-    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{lotteryResShow}}">
-      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'61'}}"
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{showAlert == 'lotteryRes'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'68'}}"
         data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc mysakura-text">
         <view class="_div data-v-2da408fc congratulation">恭喜你，获得了</view>
@@ -256,11 +257,13 @@
       </view>
       <view class="_div data-v-2da408fc getsakura"></view>
       <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy"
-        data-eventid="{{'62'}}" data-comkey="{{$k}}">
+        data-eventid="{{'69'}}" data-comkey="{{$k}}">
         确定
       </view>
     </view>
-    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{sakuraAllShow}}">
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{showAlert == 'sakuraAll'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'70'}}"
+        data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc mysakura-text">
         <view class="_div data-v-2da408fc congratulation">恭喜你，获得了</view>
         <view class="_div data-v-2da408fc name">万能樱</view>
@@ -278,12 +281,13 @@
           <view class="_div data-v-2da408fc dot dot-9"></view>
         </view>
       </view>
-      <view class="_div data-v-2da408fc mysakura-btn">
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'71'}}"
+        data-comkey="{{$k}}">
         确定
       </view>
     </view>
-    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{inviteSakuraAllShow}}">
-      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'63'}}"
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{showAlert == 'inviteSakuraAll'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'72'}}"
         data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc invite-text">
         <view class="_div data-v-2da408fc invite-title">邀请好友注册得万能樱</view>
@@ -296,8 +300,8 @@
       </button>
       <view class="_div data-v-2da408fc">花瓣在好友验证手机号后发放</view>
     </view>
-    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{sakuraAllChangeShow}}">
-      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'64'}}"
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{showAlert == 'sakuraAllChange'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'73'}}"
         data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc mysakura-text">
         <view class="_div data-v-2da408fc universal-compose">万能樱兑换</view>
@@ -305,39 +309,39 @@
       </view>
       <view class="_div data-v-2da408fc flower-box universal-flower">
         <view class="_div data-v-2da408fc top">
-          <view class="_div data-v-2da408fc flower-item {{(sakura_a_choosed)? 'choosed' : ' '}}"
-            bindtap="handleProxy" data-eventid="{{'65'}}" data-comkey="{{$k}}">
+          <view class="_div data-v-2da408fc flower-item {{(sakura_whitch_choosed == 'sakura_a')? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'74'}}" data-comkey="{{$k}}">
             <label class="_span data-v-2da408fc">八重樱</label>
           </view>
         </view>
         <view class="_div data-v-2da408fc center">
-          <view class="_div data-v-2da408fc flower-item center-left {{(sakura_e_choosed)? 'choosed' : ' '}}"
-            bindtap="handleProxy" data-eventid="{{'66'}}" data-comkey="{{$k}}">
+          <view class="_div data-v-2da408fc flower-item center-left {{(sakura_whitch_choosed == 'sakura_e')? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'75'}}" data-comkey="{{$k}}">
             <label class="_span data-v-2da408fc">寒绯樱</label>
           </view>
-          <view class="_div data-v-2da408fc flower-item center-right {{(sakura_b_choosed)? 'choosed' : ' '}}"
-            bindtap="handleProxy" data-eventid="{{'67'}}" data-comkey="{{$k}}">
+          <view class="_div data-v-2da408fc flower-item center-right {{(sakura_whitch_choosed == 'sakura_b')? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'76'}}" data-comkey="{{$k}}">
             <label class="_span data-v-2da408fc">吉野樱</label>
           </view>
         </view>
         <view class="_div data-v-2da408fc bottom">
-          <view class="_div data-v-2da408fc flower-item bottom-left {{(sakura_d_choosed)? 'choosed' : ' '}}"
-            bindtap="handleProxy" data-eventid="{{'68'}}" data-comkey="{{$k}}">
+          <view class="_div data-v-2da408fc flower-item bottom-left {{(sakura_whitch_choosed == 'sakura_d')? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'77'}}" data-comkey="{{$k}}">
             <label class="_span data-v-2da408fc">淡墨樱</label>
           </view>
-          <view class="_div data-v-2da408fc flower-item bottom-right {{(sakura_c_choosed)? 'choosed' : ' '}}"
-            bindtap="handleProxy" data-eventid="{{'69'}}" data-comkey="{{$k}}">
+          <view class="_div data-v-2da408fc flower-item bottom-right {{(sakura_whitch_choosed == 'sakura_c')? 'choosed' : ' '}}"
+            bindtap="handleProxy" data-eventid="{{'78'}}" data-comkey="{{$k}}">
             <label class="_span data-v-2da408fc">大岛樱</label>
           </view>
         </view>
       </view>
-      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'70'}}"
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'79'}}"
         data-comkey="{{$k}}">
         兑换
       </view>
     </view>
-    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{giftRecShow}}">
-      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'71'}}"
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{showAlert == 'giftRec'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'80'}}"
         data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc gift-res-title">
         赠领记录
@@ -365,13 +369,13 @@
           暂时没有赠领记录哦～快去分享给好友吧
         </view>
       </view>
-      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'72'}}"
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'81'}}"
         data-comkey="{{$k}}">
         确定
       </view>
     </view>
-    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{inviteShareSakura}}">
-      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'73'}}"
+    <view class="_div data-v-2da408fc get-alert-box" wx:if="{{showAlert == 'inviteShareSakura'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'82'}}"
         data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc mysakura-text">
         <view class="_div data-v-2da408fc congratulation">好友
@@ -380,20 +384,30 @@
       </view>
       <view class="_div data-v-2da408fc getsakura"></view>
       <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy"
-        data-eventid="{{'74'}}" data-comkey="{{$k}}">
+        data-eventid="{{'83'}}" data-comkey="{{$k}}">
         确定
       </view>
     </view>
-    <view class="_div data-v-2da408fc get-alert-box suc-alert-box" wx:if="{{showHaveDone}}">
-      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'75'}}"
+    <view class="_div data-v-2da408fc get-alert-box suc-alert-box" wx:if="{{showAlert == 'showHaveDone'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'84'}}"
         data-comkey="{{$k}}"></view>
       <view class="_div data-v-2da408fc mysakura-text">
-        <view class="_div data-v-2da408fc name">手慢了，花瓣已被别人领取</view>
+        <view class="_div data-v-2da408fc name">手慢了，花瓣已被别人领取了</view>
       </view>
-      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'76'}}"
+      <view class="_div data-v-2da408fc mysakura-btn" bindtap="handleProxy" data-eventid="{{'85'}}"
         data-comkey="{{$k}}">
         确定
       </view>
+    </view>
+    <view class="_div data-v-2da408fc get-alert-box suc-alert-box" wx:if="{{showAlert == 'sendToFriend'}}">
+      <view class="_div data-v-2da408fc colse" bindtap="handleProxy" data-eventid="{{'86'}}"
+        data-comkey="{{$k}}"></view>
+      <view class="_div data-v-2da408fc mysakura-text">
+        <view class="_div data-v-2da408fc name">送花成功！快去告诉好友吧～</view>
+      </view>
+      <button open-type="share" data-type="{{0}}" class="_button data-v-2da408fc mysakura-btn">
+        告诉TA
+      </button>
     </view>
   </view>
   </view>

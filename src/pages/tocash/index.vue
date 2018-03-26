@@ -24,20 +24,20 @@
 					价值<span>{{scoreToCash}}</span>元 ({{toScoreNum}})积分
 					<div class="mini-tip">下单可直接抵现{{scoreToCash}}元</div>
 				</div>
-				<div class="to-score-btn">
+				<div class="to-score-btn" @click="toScore()">
 					兑换积分
 				</div>
 			</div>
 		</div>
 		<div id="mask" v-if="maskShow">
 			<div class="to-alert-box">
-				<div class="colse" @click="closeAlert(maskShow)"></div>
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="mysakura-tips">
-					<p>即将为您兑换豌豆公主<span></span>积分，</p>
-					<p>可抵现<span></span>元，下单时可抵现。</p>
+					<p>即将为您兑换豌豆公主<span>{{toScoreNum}}</span>积分，</p>
+					<p>可抵现<span>{{toScoreNum / 50}}</span>元，下单时可抵现。</p>
 				</div>
 				<div class="btn-box">
-					<div class="mysakura-btn dis-btn" @click="closeAlert(maskShow)">
+					<div class="mysakura-btn dis-btn" @click="closeAlert()">
 						取消
 					</div>
 					<div class="mysakura-btn" @click="showChangeScore()">
@@ -58,7 +58,7 @@
 				<img class="to-cash-tip" src="https://s4.wandougongzhu.cn/s/f3/613_360bb0.png" alt="">
 			</div>
 			<div class="suc-banner"></div>
-			<a href="/page/index/index" class="suc-btn">去逛逛</a>
+			<div class="suc-btn" @click="toIndex()">去逛逛</div>
 		</div>
 	</div>
 </template>
@@ -95,9 +95,13 @@ export default {
 		});
 	},
 	methods: {
-		bindViewTap() {
-			const url = '../logs/logs';
-			wx.navigateTo({ url });
+		toScore() {
+			this.maskShow =true;
+		},
+		toIndex() {
+			wx.switchTab({
+				url: '/page/index/index'
+			});
 		},
 		getUserActInfo() {
 			Net.get('Sakura.getUserActivityInfoByUserId', {
@@ -132,7 +136,6 @@ export default {
 				this.sucResShow = true;
 			});
 		},
-		// userExchange
 		closeAlert () {
 			this.maskShow = false;
 		}

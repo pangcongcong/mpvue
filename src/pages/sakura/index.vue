@@ -6,8 +6,8 @@
 			</div>
 		</div>
 		<div class="tips">
-			|{{option.sakura_id}}|{{option.sakura_key}}|{{option.user_id}}
-			<!-- 每集齐1朵樱花分1份现金，集的越多分的越多 -->
+			每集齐1朵樱花分1份现金，集的越多分的越多
+			<!-- |{{option.sakura_id}}|{{option.sakura_key}}|{{option.user_id}} -->
 		</div>
 		<div class="tips-2">
 			已集齐<span class="num">{{totalSakuraNum}}朵</span>樱花&nbsp;<span>{{restText}}</span>
@@ -114,10 +114,10 @@
 			<div class="rest-count">
 				今日剩余次数<span>{{rest_count || 0}}</span>/4
 			</div>
-			<div class="lottery-btn" v-if="restDay > 0 || restDay == '-1'" @click="lotterySakura()">
+			<div class="lottery-btn" v-if="restDay > 0" @click="lotterySakura()">
 				抽樱花瓣
 			</div>
-			<a href="/pages/tocash/tocash" class="lottery-btn" v-if="restDay == '0' " @click="lotterySakura()">
+			<a href="/pages/tocash/tocash" class="lottery-btn" v-if="restDay == '0' || restDay == '-1'">
 				兑换现金
 			</a>
 			<!-- <div class="lottery-btn" v-if="restDay == '-1'">
@@ -157,7 +157,7 @@
 						<span class="task-item-name">邀请好友注册</span>
 					</div>
 					<div class="suc-box-bot">
-						已注册<span>{{inviteCount ? inviteCount : 0 }}</span>人
+						已注册<span>{{inviteCount}}</span>人
 					</div>
 				</div>
 				<div class="task-item-img">
@@ -202,7 +202,8 @@
 		</div>
 		<div id="mask" v-if="maskShow">
 			<!-- 合成樱花 -->
-			<div class="compose-box" v-if="composeShow">
+			<!-- composeShow -->
+			<div class="compose-box" v-if="showAlert == 'compose'">
 				<div class="compose-tips">
 					恭喜获得一朵樱花
 				</div>
@@ -211,11 +212,12 @@
 				<div class="compose-ani-3"></div>
 				<div class="shink"></div>
 				<div class="shink2"></div>
-				<div class="compose-btn" @click="closeAlert(composeShow)">确定</div>
+				<div class="compose-btn" @click="closeAlert()">确定</div>
 			</div>
 			<!-- 点击**樱花瓣弹框 -->
-			<div class="to-alert-box" v-if="sakuraDetailShow">
-				<div class="colse" @click="closeAlert(sakuraDetailShow)"></div>
+			<!-- sakuraDetailShow -->
+			<div class="to-alert-box" v-if="showAlert == 'sakuraDetail'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="sakura-text">
 					<div class="name">{{sakuraDetailName}}</div>
 					<div class="poetry">{{sakuraDetailPoetry}}</div>
@@ -226,13 +228,17 @@
 					<p>多余的樱花瓣可以赠送给好友哦</p>
 					<p>每天首次赠送可获得1次抽樱花瓣的机会</p>
 				</div>
-				<button open-type="share" :data-type="0" class="mysakura-btn">
+				<div class="mysakura-btn" @click="sendToFriendShow()">
 					送给好友
-				</button>
+				</div>
+				<!-- <button open-type="share" :data-type="0" class="mysakura-btn">
+					送给好友
+				</button> -->
 			</div>
 			<!-- 恭喜你获得了**樱 -->
-			<div class="get-alert-box" v-if="lotteryResShow">
-				<div class="colse" @click="closeAlert(lotteryResShow)"></div>
+			<!-- lotteryResShow -->
+			<div class="get-alert-box" v-if="showAlert == 'lotteryRes'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="mysakura-text">
 					<div class="congratulation">恭喜你，获得了</div>
 					<div class="name">{{lottery_res.sakura_name}}</div>
@@ -241,12 +247,14 @@
 
 				</div>
 				<!-- <img class="getsakura" src="https://s5.wandougongzhu.cn/s/e0/myflower1_485615.png"> -->
-				<div class="mysakura-btn" @click="closeAlert(lotteryResShow)">
+				<div class="mysakura-btn" @click="closeAlert()">
 					确定
 				</div>
 			</div>
 			 <!-- 恭喜获得万能樱 -->
-			<div class="get-alert-box" v-if="sakuraAllShow">
+			 <!-- sakuraAllShow -->
+			<div class="get-alert-box" v-if="showAlert == 'sakuraAll'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="mysakura-text">
 					<div class="congratulation">恭喜你，获得了</div>
 					<div class="name">万能樱</div>
@@ -265,13 +273,14 @@
 					</div>
 					<!-- <img class="getsakura" src="https://s5.wandougongzhu.cn/s/e0/myflower1_485615.png"> -->
 				</div>
-				<div class="mysakura-btn">
+				<div class="mysakura-btn" @click="closeAlert()">
 					确定
 				</div>
 			</div>
 			 <!-- 邀请好友得万能樱 -->
-			<div class="get-alert-box" v-if="inviteSakuraAllShow">
-				<div class="colse" @click="closeAlert(inviteSakuraAllShow)"></div>
+			 <!-- inviteSakuraAllShow -->
+			<div class="get-alert-box" v-if="showAlert == 'inviteSakuraAll'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="invite-text">
 					<div class="invite-title">邀请好友注册得万能樱</div>
 					<div>万能樱可兑换任意一朵花瓣</div>
@@ -283,31 +292,32 @@
 				<div>花瓣在好友验证手机号后发放</div>
 			</div>
 			<!-- 万能樱兑换 -->
-			<div class="get-alert-box" v-if="sakuraAllChangeShow">
-				<div class="colse" @click="closeAlert(sakuraAllChangeShow)"></div>
+			<!-- sakuraAllChangeShow -->
+			<div class="get-alert-box" v-if="showAlert == 'sakuraAllChange'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="mysakura-text">
 					<div class="universal-compose">万能樱兑换</div>
 					<div class="universal-tips">使用1个万能樱可以兑换任意1朵花瓣</div>
 				</div>
 				<div class="flower-box universal-flower">
 					<div class="top">
-						<div class="flower-item" :class="{'choosed': sakura_a_choosed}" @click="chooseChangeSakuraA(sakura_a_choosed)">
+						<div class="flower-item" :class="{'choosed': sakura_whitch_choosed == 'sakura_a'}" @click="chooseChangeSakura('sakura_a')">
 							<span>八重樱</span>
 						</div>
 					</div>
 					<div class="center">
-						<div class="flower-item center-left" :class="{'choosed': sakura_e_choosed}" @click="chooseChangeSakuraE(sakura_e_choosed)">
+						<div class="flower-item center-left" :class="{'choosed': sakura_whitch_choosed == 'sakura_e'}" @click="chooseChangeSakura('sakura_e')">
 							<span>寒绯樱</span>
 						</div>
-						<div class="flower-item center-right" :class="{'choosed': sakura_b_choosed}" @click="chooseChangeSakuraB(sakura_b_choosed)">
+						<div class="flower-item center-right" :class="{'choosed': sakura_whitch_choosed == 'sakura_b'}" @click="chooseChangeSakura('sakura_b')">
 							<span>吉野樱</span>
 						</div>
 					</div>
 					<div class="bottom">
-						<div class="flower-item bottom-left" :class="{'choosed': sakura_d_choosed}" @click="chooseChangeSakuraD(sakura_d_choosed)">
+						<div class="flower-item bottom-left" :class="{'choosed': sakura_whitch_choosed == 'sakura_d'}" @click="chooseChangeSakura('sakura_d')">
 							<span>淡墨樱</span>
 						</div>
-						<div class="flower-item bottom-right" :class="{'choosed': sakura_c_choosed}" @click="chooseChangeSakuraC(sakura_c_choosed)">
+						<div class="flower-item bottom-right" :class="{'choosed': sakura_whitch_choosed == 'sakura_c'}" @click="chooseChangeSakura('sakura_c')">
 							<span>大岛樱</span>
 						</div>
 					</div>
@@ -317,8 +327,9 @@
 				</div>
 			</div>
 			<!-- 赠领记录 -->
-			<div class="get-alert-box" v-if="giftRecShow">
-				<div class="colse" @click="closeAlert(giftRecShow)"></div>
+			<!-- giftRecShow -->
+			<div class="get-alert-box" v-if="showAlert == 'giftRec'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="gift-res-title">
 					赠领记录
 				</div>
@@ -342,8 +353,9 @@
 				</div>
 			</div>
 			<!-- 好友送你一朵**樱 -->
-			<div class="get-alert-box" v-if="inviteShareSakura">
-				<div class="colse" @click="closeAlert(inviteShareSakura)"></div>
+			<!-- inviteShareSakura -->
+			<div class="get-alert-box" v-if="showAlert == 'inviteShareSakura'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="mysakura-text">
 					<div class="congratulation">好友<span>{{inviteUser}}</span>送你一朵</div>
 					<div class="name">{{inviteShareSakuraName}}</div>
@@ -357,14 +369,25 @@
 				</div>
 			</div>
 			<!-- 来晚了樱花已经被领取了 -->
-			<div class="get-alert-box suc-alert-box" v-if="showHaveDone">
-				<div class="colse" @click="closeAlert(showHaveDone)"></div>
+			<!-- showHaveDone -->
+			<div class="get-alert-box suc-alert-box" v-if="showAlert == 'showHaveDone'">
+				<div class="colse" @click="closeAlert()"></div>
 				<div class="mysakura-text">
-					<div class="name">手慢了，花瓣已被别人领取</div>
+					<div class="name">手慢了，花瓣已被别人领取了</div>
 				</div>
-				<div class="mysakura-btn" @click="closeAlert(showHaveDone)">
+				<div class="mysakura-btn" @click="closeAlert()">
 					确定
 				</div>
+			</div>
+			<!-- 分享成功告诉好友 -->
+			<div class="get-alert-box suc-alert-box" v-if="showAlert == 'sendToFriend'">
+				<div class="colse" @click="closeAlert()"></div>
+				<div class="mysakura-text">
+					<div class="name">送花成功！快去告诉好友吧～</div>
+				</div>
+				<button open-type="share" :data-type="0" class="mysakura-btn">
+					告诉TA
+				</button>
 			</div>
 		</div>
 	</div>
@@ -391,15 +414,12 @@ export default {
 			is_compose: false, //是否可以合成樱花
 			rest_count: 0, //剩余抽奖次数
 			lottery_res: {}, //抽取樱花瓣结果
-			lotteryResShow: false, //抽取花瓣显示弹框
 			maskShow: false, //蒙层
 			taskList: [],
 			totalSakuraNum: 0,
 			restDay: 10,
 			restText: '',
 			lock: false,
-			sakuraDetailShow: false, //点击某个花瓣显示的弹框
-			composeShow: false, //合成动画效果显示
 			sakuraDetailKey: 'sakura_a',
 			sakuraDetailRotate: 0, //旋转角度
 			sakuraDetailName: '八重樱',
@@ -414,31 +434,22 @@ export default {
 			},//分享花瓣给好友图了list
 			shareSakura: 'sakura_a',
 			sakura_All_num: 0, //万能花瓣数量
-			sakuraAllChangeShow: false, //万能樱兑换其他花瓣弹框
-			sakura_a_choosed: false,
-			sakura_b_choosed: false,
-			sakura_c_choosed: false,
-			sakura_d_choosed: false,
-			sakura_e_choosed: false,
+			sakura_whitch_choosed: '',
 			exchange_sakura_key: '', //要兑换的花瓣
 			inviteCount: 0, //邀请好友数量
 			ruleShowMore: false,
 			ruleShowText: '展开更多',
-			giftRecShow: false, //显示赠领记录
 			giftRecList: [], //赠领记录
-			sakuraAllShow: false, //恭喜获得万能樱/是否新人？
 			invite_sakura: '', //通过邀请来领取的花瓣key
 			invite_user_id: '', //邀请人id
-			inviteSakuraAllShow: false, //邀请好友得万能樱弹框
 			option: '',
 			inviteUser: '', //好友昵称
-			inviteShareSakura: false, //好友送的樱花弹框
 			inviteShareSakuraName: '', //好友送的**盈
 			sakura_id: '',
 			checkInfo: '',
 			haveDone: false,
-			showHaveDone: false,
 			recv_id: '',
+			showAlert: '',
 		};
 	},
 	onLoad() {
@@ -449,7 +460,7 @@ export default {
 			this.showGetSakuraAlert();
 			if (this.option.sakura_key) {
 				this.maskShow = true;
-				this.inviteShareSakura = true;
+				this.showAlert = 'inviteShareSakura';
 			}
 		} else {
 			if (this.option.user_id == WMP.globalData.userInfo.user_id) {
@@ -462,7 +473,7 @@ export default {
 				this.getUserActInfo();
 				if (this.option.sakura_key) {
 					this.maskShow = true;
-					this.inviteShareSakura = true;
+					this.showAlert = 'inviteShareSakura';
 				}
 			}
 		}
@@ -471,7 +482,6 @@ export default {
 		let self = this;
 		this.closeAlert(this.sakuraDetailShow);
 		if (res.from == 'button' && res.target.dataset.type == '0') {
-			//任务三 赠送好友一瓣
 			return {
 				title: '送你一朵'+this.sakuraDetailName+'，快来和我平分100万现金！',
 				path: '/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey +'&user_id=' + this.user_id +"&sakura_id=" + this.sakura_id,
@@ -577,6 +587,10 @@ export default {
 		}
 	},
 	methods: {
+		sendToFriendShow() {
+			this.showAlert = 'sendToFriend';
+			this.getShareSakuraId();
+		},
 		getShareSakuraId() {
 			Net.get('Sakura.userGiftSakura', {
 				data: {
@@ -586,8 +600,7 @@ export default {
 			}).then(res=>{
 				if(res.errno=='0') {
 					this.sakura_id = res.data.sakura_id;
-					console.log('/pages/sakura/sakura?sakura_key=' + this.sakuraDetailKey +'&user_id=' + this.user_id+"&sakura_id=" + this.sakura_id);
-					
+					console.log("sakura_id=" + this.sakura_id);
 				} else {
 					wx.showModal({title:'提示', content: res.errmsg});
 				}
@@ -643,8 +656,7 @@ export default {
 							this.inviteUser = res.data.from_user_display_name;
 							this.inviteShareSakuraName = res.data.sakura_name;
 							this.maskShow = true;
-							this.inviteShareSakura = false;
-							this.showHaveDone = true;
+							this.showAlert = 'showHaveDone';
 						} else {
 							if (this.option.user_id == this.user_id) {
 								wx.showToast({
@@ -654,8 +666,7 @@ export default {
 								});
 							} else {
 								if (this.recv_id != '0') {
-									this.showHaveDone = true;
-									this.inviteShareSakura = false;
+									this.showAlert = 'showHaveDone';
 									this.maskShow = true;
 								} else {
 									wx.showToast({
@@ -678,7 +689,6 @@ export default {
 		},
 		getUserActInfo() {
 			this.maskShow = false;
-			this.inviteShareSakura = false;
 			this.userInfo = WMP.globalData.userInfo;
 			this.user_id = this.userInfo.user_id;
 			console.log(this.option);
@@ -735,16 +745,8 @@ export default {
 			console.log(this.restDay);
 		},
 		showHaveDone() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow =false;
-			this.sakuraAllChangeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.composeShow = false;
-
-			this.showHaveDone = true;
 			this.maskShow = true;
+			this.showAlert = 'showHaveDone';
 		},
 		showSakuraDetail(key, name, poetry) {
 			console.log('key=' + key);
@@ -762,29 +764,13 @@ export default {
 			} else if (this.sakuraDetailKey == 'sakura_e') {
 				this.sakuraDetailRotate = -72;
 			}
-			this.sakuraAllChangeShow = false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.lotteryResShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
-
 			this.maskShow = true;
-			this.sakuraDetailShow = true;
-			this.getShareSakuraId();
+			this.showAlert = 'sakuraDetail';
 		},
 		showComposeAni() {
 			if (this.is_compose) {
-				this.sakuraDetailShow = false;
-				this.lotteryResShow =false;
-				this.sakuraAllChangeShow = false;
-				this.giftRecShow = false;
-				this.sakuraAllShow = false;
-				this.inviteSakuraAllShow = false;
-				this.showHaveDone = false;
 				this.maskShow = true;
-				this.composeShow = true;
+				this.showAlert = 'conpose';
 				Net.get('Sakura.userComposeSakura', {
 					data: {
 						user_id: this.user_id
@@ -806,53 +792,25 @@ export default {
 		},
 		//万能瓣兑换弹框
 		showSakuraW() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow =false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.sakuraAllChangeShow = true;
+			this.showAlert = 'sakuraAllChange';
 		},
 		//获得万能瓣弹框
 		showSakuraAll() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow =false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllChangeShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.sakuraAllShow = true;
+			this.showAlert = 'sakuraAll';
 		},
 		//邀请好友得万能樱弹框
 		showinviteSakuraAll() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow =false;
-			this.composeShow = false;
-			this.giftRecShow = false;
-			this.sakuraAllChangeShow = false;
-			this.sakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.inviteSakuraAllShow = true;
+			this.showAlert = 'inviteSakuraAll';
 		},
 		showMoreRule() {
 			this.ruleShowMore = !this.ruleShowMore;
 		},
 		showGiftRec() {
-			this.sakuraDetailShow = false;
-			this.lotteryResShow =false;
-			this.composeShow = false;
-			this.sakuraAllChangeShow = false;
-			this.sakuraAllShow = false;
-			this.inviteSakuraAllShow = false;
-			this.showHaveDone = false;
 			this.maskShow = true;
-			this.giftRecShow = true;
+			this.showAlert = 'giftRec';
 			Net.get('Sakura.getUserGiftSakuraList', {
 				data: {
 					user_id: this.user_id
@@ -866,45 +824,9 @@ export default {
 				}
 			}) 
 		},
-		chooseChangeSakuraA() {
-			this.sakura_b_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_a_choosed = true;
-			this.exchange_sakura_key = 'sakura_a';
-		},
-		chooseChangeSakuraB() {
-			this.sakura_a_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_b_choosed = true;
-			this.exchange_sakura_key = 'sakura_b';	
-		},
-		chooseChangeSakuraC() {
-			this.sakura_a_choosed = false;
-			this.sakura_b_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_c_choosed = true;
-			this.exchange_sakura_key = 'sakura_c';
-		},
-		chooseChangeSakuraD() {
-			this.sakura_a_choosed = false;
-			this.sakura_b_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_e_choosed = false;
-			this.sakura_d_choosed = true;
-			this.exchange_sakura_key = 'sakura_d';
-		},
-		chooseChangeSakuraE() {
-			this.sakura_a_choosed = false;
-			this.sakura_b_choosed = false;
-			this.sakura_c_choosed = false;
-			this.sakura_d_choosed = false;
-			this.sakura_e_choosed = true;
-			this.exchange_sakura_key = 'sakura_e';
+		chooseChangeSakura(param) {
+			this.sakura_whitch_choosed = param;
+			this.exchange_sakura_key = param;
 		},
 		closeAlert (param) {
 			param = false;
@@ -915,20 +837,14 @@ export default {
 
 		},
 		_lotterySakura() {
+			this.userInfo = WMP.globalData.userInfo;
+			this.user_id = this.userInfo.user_id;
 			Net.post('Sakura.userLotterySakura', {
 				user_id: this.user_id
 			}).then(res=>{
 				if(res.errno=='0') {
-					this.sakuraDetailShow = false;
-					this.sakuraAllChangeShow = false;
-					this.composeShow = false;
-					this.sakuraAllShow = false;
-					this.inviteSakuraAllShow = false;
-					this.giftRecShow = false;
-					this.showHaveDone = false;
 					this.maskShow = true;
-					this.lotteryResShow = true;
-
+					this.showAlert = 'lotteryRes';
 					this.lottery_res = res.data;
 				} else {
 					wx.showModal({title:'提示', content: res.errmsg});
@@ -938,13 +854,11 @@ export default {
 		lotterySakura() {
 			let self = this;
 			WMP.checkAuthPromise(this).then(()=>{
-				this.userInfo = WMP.globalData.userInfo;
-				this.user_id = this.userInfo.user_id;
 				this._lotterySakura();
 			})
 		},
 		changeSakura() {
-			console.log(this.exchange_sakura_key);
+			
 			if (this.exchange_sakura_key) {
 				if (this.sakura_W_num > 0) {
 					Net.get('Sakura.userExchangeSakuraW', {
@@ -954,19 +868,11 @@ export default {
 						}
 					}).then(res=>{
 						if(res.errno=='0') {
-							this.sakuraDetailShow = false;
-							this.composeShow = false;
-							this.lotteryResShow = false;
-							this.sakuraAllShow = false;
-							this.inviteSakuraAllShow = false;
-							this.giftRecShow = false;
-							this.showHaveDone = false;
 							this.maskShow = true;
-							this.sakuraAllChangeShow = true;
-							this.getUserActInfo();
+							this.showAlert = 'sakuraAll';
 						} else {
 							this.maskShow = false;
-							this.sakuraAllChangeShow = false;
+							this.showAlert = '';
 							wx.showModal({title:'提示', content: res.errmsg});
 						}
 					});
@@ -1033,9 +939,6 @@ export default {
 </script>
 
 <style scoped>
-button::after {
-	display: none;
-}
 @font-face {
     font-family: "SakuraFont";
     src: url("https://s5.wandougongzhu.cn/s/72/fonts_80bdfb.eot"); /* IE9 */
@@ -1389,6 +1292,7 @@ body {
 	margin: 0 15px;
 }
 .rec-btn {
+	font-size: 18px;
 	width: 117px;
 	height: 35px;
 	line-height: 35px;
@@ -1417,6 +1321,7 @@ body {
 	background: url('https://s5.wandougongzhu.cn/s/83/_24bedc.jpg') no-repeat;
 	background-size: 100% auto;
 	background-color: #f3f2f1;
+	font-weight: bold;
 }
 
 .tips {
@@ -1681,6 +1586,7 @@ body {
 	margin-bottom: 10px;
 }
 .lottery-btn {
+	font-size: 18px;
 	display: block;
 	width: 140px;
 	height: 35px;
